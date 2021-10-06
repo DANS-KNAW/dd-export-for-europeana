@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ddm:DDM xsi:schemaLocation="http://easy.dans.knaw.nl/schemas/md/ddm/ https://easy.dans.knaw.nl/schemas/md/ddm/ddm.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:id-type="http://easy.dans.knaw.nl/schemas/vocab/identifier-type/" xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/" xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:abr="http://www.den.nl/standaard/166/Archeologisch-Basisregister/" xmlns="http://easy.dans.knaw.nl/schemas/bag/metadata/files/" xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/">
+<ddm:profile>
+    <dc:title xml:lang="en">PAN-00009021 - open plain arm ring with single knobbed terminals</dc:title>
+    <dcterms:description xml:lang="en">This find is registered at Portable Antiquities of the Netherlands with number PAN-00009021</dcterms:description>
+    <dcx-dai:creatorDetails>
+        <dcx-dai:organization>
+            <dcx-dai:name xml:lang="en">Portable Antiquities of the Netherlands</dcx-dai:name>
+            <dcx-dai:role>DataCurator</dcx-dai:role>
+        </dcx-dai:organization>
+    </dcx-dai:creatorDetails>
+    <ddm:created>2018-12-31T09:52:07+02:00</ddm:created>
+    <ddm:available>2018-12-31T09:52:07+02:00</ddm:available>
+    <ddm:audience>D37000</ddm:audience>
+    <ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
+</ddm:profile>
+<ddm:dcmiMetadata>
+    <dcterms:identifier xsi:type="id-type:URN">urn:nbn:nl:ui:13-oj-t6u7</dcterms:identifier>
+    <dcterms:identifier xsi:type="id-type:DOI">10.17026/dans-z74-c65r</dcterms:identifier>
+    <dcterms:identifier>easy-dataset:133724</dcterms:identifier>
+    <dcx-gml:spatial>
+        <MultiSurface xmlns="http://www.opengis.net/gml">
+            <name>Zaltbommel</name>
+            <surfaceMember>
+                <Polygon srsName="http://www.opengis.net/def/crs/EPSG/0/28992">
+                    <exterior>
+                        <LinearRing>
+                            <posList>134308 426509 134731 426445 135258 426249 136730 425345 137276 425147 138016 425084 139284 425343 140068 425402 140444 425338 140832 425210 141890 424738 142316 424640 142634 424611 143052 424624 143524 424712 143991 424864 144871 425248 145657 425486 146883 425642 147727 425849 147932 425429 147878 425374 147833 425380 147789 425067 147816 424859 147666 424647 147915 424217 147819 424165 147876 424056 147861 423849 147675 423703 148169 423509 148187 423442 148006 423376 147350 422957 146670 422726 146907 420635 146395 420671 146397 420579 146364 420566 146103 420566 145657 420427 145452 420293 144853 420269 144664 420376 144351 420232 143917 420174 143424 420051 143055 420004 142846 420079 142616 420082 141810 419876 141521 419881 141554 419771 141332 419672 140742 419784 140259 419503 140364 419355 140320 419175 140527 419081 140734 418901 140924 418613 141026 418373 141087 418002 141049 417666 140995 417659 140997 417481 141037 417474 141083 417042 140500 417155 139700 417157 138399 416908 137100 416575 137000 416611 136958 416800 136932 417201 136984 417400 137069 417500 137499 417778 137800 418032 138012 418300 138119 418530 137900 418659 137770 418800 137650 419100 137683 419500 137909 420099 137896 420299 137771 420500 137600 420603 137100 420746 136400 421089 135552 421910 135311 422052 134998 422143 134699 422121 134396 421948 134201 421758 134063 421501 133800 421298 133403 421202 133001 421299 132871 421400 132554 421801 132227 422501 132012 422801 131900 423059 131796 423162 131598 423340 131406 423448 130700 423772 130198 423931 129400 424463 129053 424898 128992 425100 128998 425400 128945 425500 128598 425684 128329 425884 128745 425898 129200 425857 129722 425765 130708 425493 131205 425472 131911 425645 132448 425901 133098 426273 133416 426404 133973 426515 134308 426509</posList>
+                        </LinearRing>
+                    </exterior>
+                </Polygon>
+            </surfaceMember>
+        </MultiSurface>
+    </dcx-gml:spatial>
+    <dcterms:spatial>Zaltbommel</dcterms:spatial>
+    <dcterms:spatial xsi:type="dcterms:ISO3166">NLD</dcterms:spatial>
+    <dcterms:isFormatOf>PAN-00009021</dcterms:isFormatOf>
+    <ddm:references xml:lang="en" href="https://www.portable-antiquities.nl/pan/#/object/public/9021">Portable Antiquities of The Netherlands</ddm:references>
+    <ddm:subject xml:lang="en" valueURI="https://data.cultureelerfgoed.nl/term/id/pan/01-04-02-01-07-03" subjectScheme="PAN thesaurus ideaaltypes" schemeURI="https://data.cultureelerfgoed.nl/term/id/pan/PAN">open plain arm ring with single knobbed terminals</ddm:subject>
+    <ddm:subject xml:lang="en" valueURI="http://vocab.getty.edu/aat/300045991" subjectScheme="Art and Architecture Thesaurus" schemeURI="http://vocab.getty.edu/aat/">Broader Match: bracelets (jewelry)</ddm:subject>
+    <ddm:subject xml:lang="nl" valueURI="https://data.cultureelerfgoed.nl/term/id/rn/df14998c-665d-4f65-acbd-0724c60b5110" subjectScheme="Archeologisch Basis Register" schemeURI="https://data.cultureelerfgoed.nl/term/id/rn/a4a7933c-e096-4bcf-a921-4f70a78749fe">Broader Match: armband</ddm:subject>
+    <dc:subject xml:lang="en">metal</dc:subject>
+    <dc:subject xml:lang="en">copper alloy</dc:subject>
+    <dcterms:identifier>PAN-00009021</dcterms:identifier>
+    <dcterms:identifier xsi:type="id-type:NWO-PROJECTNR">380-60-007</dcterms:identifier>
+    <ddm:temporal xml:lang="en" valueURI="https://data.cultureelerfgoed.nl/term/id/abr/d08febfe-53a5-4053-a332-c4372b2bfe12" subjectScheme="Archeologisch Basis Register" schemeURI="https://data.cultureelerfgoed.nl/term/id/abr/b6df7840-67bf-48bd-aa56-7ee39435d2ed">Early Roman Period A</ddm:temporal>
+    <ddm:temporal xml:lang="en" valueURI="https://data.cultureelerfgoed.nl/term/id/abr/5b253754-ddd0-4ae0-a5bb-555176bca858" subjectScheme="Archeologisch Basis Register" schemeURI="https://data.cultureelerfgoed.nl/term/id/abr/b6df7840-67bf-48bd-aa56-7ee39435d2ed">Middle Roman Period A</ddm:temporal>
+    <dcterms:temporal xml:lang="en">-15 until 100</dcterms:temporal>
+    <dc:language xsi:type="dcterms:ISO639-2">eng</dc:language>
+    <dc:language xsi:type="dcterms:ISO639-2">nld</dc:language>
+    <dc:publisher xmlns:dc="http://purl.org/dc/terms/">DANS/KNAW</dc:publisher>
+    <dc:type xsi:type="dcterms:DCMIType" xmlns:dc="http://purl.org/dc/terms/">Dataset</dc:type>
+    <dc:format xsi:type="dcterms:IMT">image/jpeg</dc:format>
+    <dc:format xsi:type="dcterms:IMT">application/xml</dc:format>
+    <dc:format xsi:type="dcterms:IMT">text/xml</dc:format>
+    <dcterms:modified>2019-09-10T09:52:08+02:00</dcterms:modified>
+    <dcterms:license xsi:type="dcterms:URI">http://creativecommons.org/licenses/by-nc-sa/4.0/</dcterms:license>
+    <dcterms:rightsHolder xml:lang="nl">Vrije Universiteit Amsterdam</dcterms:rightsHolder>
+</ddm:dcmiMetadata>
+</ddm:DDM>

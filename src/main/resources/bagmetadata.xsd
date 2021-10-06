@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+  targetNamespace="http://easy.dans.knaw.nl/schemas/bag/metadata/bagmetadata/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:files="http://easy.dans.knaw.nl/schemas/bag/metadata/files/"
+  xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/">
+  <xs:import namespace="http://easy.dans.knaw.nl/schemas/bag/metadata/files/" schemaLocation="https://easy.dans.knaw.nl/schemas/bag/metadata/files/files.xsd"/>
+  <xs:import namespace="http://easy.dans.knaw.nl/schemas/md/ddm/" schemaLocation="https://easy.dans.knaw.nl/schemas/md/ddm/ddm.xsd"/>
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
+  <xs:element name="bagmetadata">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ddm:DDM"/>
+        <xs:element ref="files:files"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

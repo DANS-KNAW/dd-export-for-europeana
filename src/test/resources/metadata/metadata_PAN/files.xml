@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<files xmlns="http://easy.dans.knaw.nl/schemas/bag/metadata/files/" xmlns:dcterms="http://purl.org/dc/terms/">
+    <file filepath="data/object.xml">
+        <dcterms:format>text/xml</dcterms:format>
+    </file>
+    <file filepath="data/depositor.xml">
+        <dcterms:format>text/xml</dcterms:format>
+        <accessibleToRights>NONE</accessibleToRights>
+        <visibleToRights>NONE</visibleToRights>
+    </file>
+    <file filepath="data/location.xml">
+        <dcterms:format>text/xml</dcterms:format>
+        <accessibleToRights>NONE</accessibleToRights>
+        <visibleToRights>NONE</visibleToRights>
+    </file>
+    <file filepath="data/thesaurus-nl.xml">
+        <dcterms:format>text/xml</dcterms:format>
+    </file>
+    <file filepath="data/thesaurus-en.xml">
+        <dcterms:format>text/xml</dcterms:format>
+    </file>
+    <file filepath="data/images/PAN-00009021-001.jpg">
+        <dcterms:format>image/jpeg</dcterms:format>
+    </file>
+</files>
