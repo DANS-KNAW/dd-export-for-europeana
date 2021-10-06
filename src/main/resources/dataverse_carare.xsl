@@ -5,9 +5,10 @@
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:str="http://exslt.org/strings"
+        exclude-result-prefixes="xs xsi str"
         version="2.0">
 
-    <xsl:variable name="doi" select="substring-after(/dataset/dansDataversePid, 'doi:')"/>
+    <xsl:variable name="doi" select="substring-after(/dataset/datasetPersistentId, 'doi:')"/>
     <xsl:variable name="doi-url" select="concat('https://doi.org/', $doi)"/>
 
     <xsl:template match="/">
@@ -32,7 +33,7 @@
                 <xsl:apply-templates select="dataset"/>
 
                 <!-- digitalResource -->
-                <xsl:apply-templates select="files/file"/>
+                <xsl:apply-templates select="dataset/files/file"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -143,25 +144,11 @@
 
             <!-- language -->
             <language>
-                <xsl:value-of select="language"/>
+                <xsl:value-of select="language[1]"/>
             </language>
 
         </xsl:element>
     </xsl:template>
-
-    <!-- ==================================================== -->
-    <!--                       language                       -->
-    <!-- ==================================================== -->
-<!--    <xsl:template match="language">-->
-<!--        <xsl:element name="language">-->
-<!--            <xsl:if test="./@xsi:type">-->
-<!--                <xsl:attribute name="lang">-->
-<!--                    <xsl:value-of select="./@xsi:type" />-->
-<!--                </xsl:attribute>-->
-<!--            </xsl:if>-->
-<!--            <xsl:value-of select="."/>-->
-<!--        </xsl:element>-->
-<!--    </xsl:template>-->
 
     <!-- ==================================================== -->
     <!--                     appellation                      -->
@@ -185,7 +172,7 @@
     <!--                     description                      -->
     <!-- ==================================================== -->
     <xsl:template match="dsDescription">
-         <description>
+         <description lang="en">
             <xsl:value-of select="dsDescriptionValue" />
         </description>
     </xsl:template>
@@ -202,31 +189,27 @@
     <!-- ==================================================== -->
     <!--                      actors                          -->
     <!-- ==================================================== -->
-    <xsl:template name="actors">
+    <xsl:template match="author">
         <xsl:element name="actors">
-            <xsl:for-each select="author">
-
-                <!-- name -->
-                <xsl:for-each select="authorName">
-                    <xsl:element name="name">
-                        <xsl:value-of select="."/>
-                    </xsl:element>
-                </xsl:for-each>
-
-                <!-- actorType -->
-                <!-- ??? -->
-                <xsl:if test="authorAffiliation">
-                    <xsl:element name="actorType">
-                         <xsl:value-of select="'organization'"/>
-                    </xsl:element>
-                </xsl:if>
-                <xsl:if test="not(authorAffiliation)">
-                    <xsl:element name="actorType">
-                        <xsl:value-of select="'individual'"/>
-                    </xsl:element>
-                </xsl:if>
-
+            <!-- name -->
+            <xsl:for-each select="./authorName">
+                <xsl:element name="name">
+                    <xsl:value-of select="."/>
+                </xsl:element>
             </xsl:for-each>
+
+            <!-- actorType -->
+            <!-- ??? -->
+            <xsl:if test="./authorAffiliation">
+                <xsl:element name="actorType">
+                     <xsl:value-of select="'organization'"/>
+                </xsl:element>
+            </xsl:if>
+            <xsl:if test="not(./authorAffiliation)">
+                <xsl:element name="actorType">
+                    <xsl:value-of select="'individual'"/>
+                </xsl:element>
+            </xsl:if>
 
             <!-- roles -->
             <xsl:for-each select="/dataset/contributor">
@@ -346,11 +329,11 @@
                 </xsl:choose>
             </accessRights>
 
-            <licence>
-                <xsl:value-of select="license/label"/>
-            </licence>
-
             <xsl:variable name="uri" select="license/uri"/>
+
+            <licence>
+                <xsl:value-of select="$uri"/>
+            </licence>
 
             <europeanaRights>
                 <xsl:choose>
@@ -414,16 +397,19 @@
     <!--                  hasRepresentation                   -->
     <!-- ==================================================== -->
     <xsl:template name="hasRepresentation">
-        <xsl:variable name="filepath" select="files/file/directoryLabel[. = 'data/images'][1]"/>
-        <xsl:element name="hasRepresentation">
-            <xsl:value-of select="concat($doi, substring($filepath, 5))"/>
-        </xsl:element>
+        <xsl:variable name="imageFilepath" select="files/file/directoryLabel[. = 'data/images'][1]"/>
+        <xsl:if test="$imageFilepath">
+            <xsl:variable name="fileName" select="$imageFilepath/../filename"/>
+            <xsl:element name="hasRepresentation">
+                <xsl:value-of select="concat($doi, '/images/', $fileName)"/>
+            </xsl:element>
+        </xsl:if>
     </xsl:template>
 
     <!-- ==================================================== -->
     <!--               Carare digitalResource                 -->
     <!-- ==================================================== -->
-    <xsl:template match="files/file">
+    <xsl:template match="dataset/files/file">
 
         <xsl:element name="digitalResource">
 
@@ -449,7 +435,7 @@
                     <xsl:when test="contains($fileName, 'thesaurus-en')">
                         <xsl:value-of select="'Detailed information about the classification of this object in xml format, in English'"/>
                     </xsl:when>
-                    <xsl:when test="contains(./directoryLabel, 'object')">
+                    <xsl:when test="contains($fileName, 'object')">
                         <xsl:value-of select="'Technical description of the object in xml format'"/>
                     </xsl:when>
                     <xsl:when test="contains(./directoryLabel, 'images')">
@@ -464,14 +450,14 @@
             </format>
 
             <!-- link -->
-<!--            <link>-->
-<!--                <xsl:value-of select="dcterms:source"/>-->
-<!--            </link>-->
+            <!-- ??? -->
+            <link>
+            </link>
 
             <!-- object -->
-<!--            <object>-->
-<!--                <xsl:value-of select="dcterms:source"/>-->
-<!--            </object>-->
+            <!-- ??? -->
+            <object>
+            </object>
 
             <!-- isShownAt -->
             <isShownAt>
@@ -484,7 +470,7 @@
                     <xsl:value-of select="'Open Access'"/>
                 </accessRights>
                 <licence>
-                    <xsl:value-of select="dataset/license/uri"/>
+                    <xsl:value-of select="/dataset/license/uri"/>
                 </licence>
             </rights>
 

@@ -56,7 +56,7 @@ class CommandLineOptions(args: Array[String], configuration: Configuration) exte
   val transform: ScallopOption[File] = transformPath.map(File(_))
   private val outputPath: ScallopOption[Path] = opt("output", short = 'o',
     descr = "The directory in which to output the resulting metadata. " +
-      "If '-b' is used, this is optional (default to stdout); if '-l' is used, this argument is mandatory.")
+      "If '-d' is used, this is optional (default to stdout); if '-l' is used, this argument is mandatory.")
   val output: ScallopOption[File] = outputPath.map(File(_))
 
   requireOne(doi, listPath)

@@ -31,12 +31,12 @@ class TransformMetadataApp(configuration: Configuration) {
   def processDataset(doi: Doi, transformer: Option[Transformer], output: Writer): Try[Unit] = {
     for {
       datasetXml <- fetchMetadata(doi)
-//      resultXml <- transformer.fold(Try { datasetXml })(transform(datasetXml))
-//      _ <- outputXml(resultXml, output)
+      resultXml <- transformer.fold(Try { datasetXml })(transform(datasetXml))
+      _ <- outputXml(resultXml, output)
     } yield ()
   }
 
-  def fetchMetadata(doi: Doi) = {
+  def fetchMetadata(doi: Doi): Try[Elem] = {
     dataverse.getMetadata(doi)
   }
 

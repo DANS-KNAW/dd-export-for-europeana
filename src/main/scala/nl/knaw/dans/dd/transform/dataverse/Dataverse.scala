@@ -58,7 +58,6 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
       }
       ))
     xml += "</dataset>"
-    logger.info("xml: " + xml)
     XML.loadString(xml)
   }
 

@@ -45,7 +45,7 @@ object Command extends App with DebugEnhancedLogging {
 
   def fileOutput(doi: Doi): Option[ManagedResource[Writer]] = {
     commandLine.output.toOption
-      .map(dir => (dir / s"output-$doi.xml").createFileIfNotExists())
+      .map(dir => (dir / s"output-${doi.replace('/', '_')}.xml").createFileIfNotExists())
       .map(file => managed(file.newFileWriter(append = false)))
   }
 
