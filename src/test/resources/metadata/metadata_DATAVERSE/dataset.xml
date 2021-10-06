@@ -41,26 +41,25 @@
     <dansRightsHolder>Vrije Universiteit Amsterdam</dansRightsHolder>
     <files>
         <file>
-            <filename>easy-dataset 129649.xml</filename>
+            <filename>object.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
         </file>
         <file>
-            <filename>easy-dataset 133724.xml</filename>
+            <filename>thesaurus-nl.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
         </file>
         <file>
-            <filename>Leeg onkostenvergoedingsformulier  vFeb2014.tab</filename>
-            <directoryLabel>data/images</directoryLabel>
+            <filename>thesaurus-en.xml</filename>
             <restricted>false</restricted>
-            <contentType>text/tab-separated-values</contentType>
+            <contentType>text/xml</contentType>
         </file>
         <file>
-            <filename>Leeg onkostenvergoedingsormulier 14 mrt 2013.tab</filename>
+            <filename>PAN-00009021-001.jpg</filename>
             <directoryLabel>data/images</directoryLabel>
             <restricted>false</restricted>
-            <contentType>text/tab-separated-values</contentType>
+            <contentType>image/jpeg</contentType>
         </file>
     </files>
 </dataset>

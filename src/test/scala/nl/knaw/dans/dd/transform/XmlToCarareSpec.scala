@@ -16,8 +16,6 @@
 package nl.knaw.dans.dd.transform
 
 import java.io.{ StringReader, StringWriter }
-import java.net.URI
-import java.util.UUID
 
 import better.files.File
 import javax.xml.XMLConstants
@@ -29,16 +27,14 @@ import org.scalatest.BeforeAndAfterEach
 
 import scala.xml.{ Node, PrettyPrinter, XML }
 
-class XmlDdmToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
+class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
 
   private val dataset = metadataDir / "metadata_DATAVERSE/dataset.xml"
-  private val bagId = UUID.fromString("12345678-1234-1234-1234-123456789012")
-  private val downloadUrl = new URI("https://download/location/")
-  private val ddmToCarareXSL = "src/main/resources/dataverse_carare.xsl"
+  private val dataverseToCarareXSL = "src/main/resources/dataverse_carare.xsl"
   private val carareXSD = "src/main/resources/carare-v2.0.6.xsd"
 
   val factory: TransformerFactory = TransformerFactory.newInstance()
-  val xslt = new StreamSource(File(ddmToCarareXSL).toJava)
+  val xslt = new StreamSource(File(dataverseToCarareXSL).toJava)
   val transformer: Transformer = factory.newTransformer(xslt)
   private lazy val prettyPrinter = new PrettyPrinter(160, 2)
 
@@ -50,7 +46,7 @@ class XmlDdmToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
 
   "transform" should "produce an XML-file in Carare format, and it should validate against Carare schema 2.0.6" in {
     val carareXml = transformToCarare(dataset)
-    Console.err.println(prettyPrinter.format(carareXml))
+//    Console.err.println(prettyPrinter.format(carareXml))
     validate(carareXml, File(carareXSD))
   }
 
@@ -67,7 +63,7 @@ class XmlDdmToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
     val carareXml = transformToCarare(dataset)
     val id = carareXml \ "carare" \ "@id"
 
-    id.text shouldBe "10.17026/dans-z74-c65r"
+    id.text shouldBe "10.5072/DAR/VZP5W1"
   }
 
   it should "produce a Carare XML-file with a correct collectionInformation contents" in {
@@ -84,48 +80,48 @@ class XmlDdmToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
     val carareXml = transformToCarare(dataset)
     val heritageAssetIdentification = carareXml \ "carare" \ "heritageAssetIdentification"
 
-    (heritageAssetIdentification \ "recordInformation" \ "id").text  shouldBe "10.17026/dans-z74-c65r"
-    (heritageAssetIdentification \ "recordInformation" \ "creation" \ "date").text  shouldBe "2018-12-31"
-    (heritageAssetIdentification \ "recordInformation" \ "language").head.text  shouldBe "eng"
-    (heritageAssetIdentification \ "recordInformation" \ "language").head.attribute("lang").get.text shouldBe "dcterms:ISO639-2"
+    (heritageAssetIdentification \ "recordInformation" \ "id").text  shouldBe "10.5072/DAR/VZP5W1"
+    (heritageAssetIdentification \ "recordInformation" \ "creation" \ "date").text  shouldBe "2021-10-06"
+    (heritageAssetIdentification \ "recordInformation" \ "language").head.text  shouldBe "English"
+//    (heritageAssetIdentification \ "recordInformation" \ "language").head.attribute("lang").get.text shouldBe "dcterms:ISO639-2"
     (heritageAssetIdentification \ "appellation" \ "name").head.text  shouldBe "PAN-00009021 - open plain arm ring with single knobbed terminals"
-    (heritageAssetIdentification \ "appellation" \ "id").head.text  shouldBe "10.17026/dans-z74-c65r"
+    (heritageAssetIdentification \ "appellation" \ "id").head.text  shouldBe "10.5072/DAR/VZP5W1"
     (heritageAssetIdentification \ "description").head.text  shouldBe "This find is registered at Portable Antiquities of the Netherlands with number PAN-00009021"
     (heritageAssetIdentification \ "generalType").head.text  shouldBe "Artefact"
-    (heritageAssetIdentification \ "actors" \ "name").head.text  shouldBe "Portable Antiquities of the Netherlands"
+    (heritageAssetIdentification \ "actors" \ "name").head.text  shouldBe "Admin, Dataverse"
     (heritageAssetIdentification \ "actors" \ "actorType").head.text  shouldBe "organization"
-    (heritageAssetIdentification \ "actors" \ "roles").head.text  shouldBe "DataCurator"
-    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.text  shouldBe "open plain arm ring with single knobbed terminals"
-    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.attribute("namespace").get.text  shouldBe "https://data.cultureelerfgoed.nl/term/id/pan/PAN"
-    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.attribute("termUID").get.text  shouldBe "https://data.cultureelerfgoed.nl/term/id/pan/01-04-02-01-07-03"
-    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.attribute("term").get.text  shouldBe "open plain arm ring with single knobbed terminals"
-    (heritageAssetIdentification \ "characters" \ "temporal" \ "displayDate").head.text  shouldBe "Early Roman Period A"
+    (heritageAssetIdentification \ "actors" \ "roles").head.text  shouldBe "Data Collector"
+//    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.text  shouldBe "open plain arm ring with single knobbed terminals"
+//    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.attribute("namespace").get.text  shouldBe "https://data.cultureelerfgoed.nl/term/id/pan/PAN"
+    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.attribute("termUID").get.text  shouldBe "https://data.cultureelerfgoed.nl/term/id/abr/689ebb47-4f4b-41be-8b5a-cedcf4786363"
+//    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.attribute("term").get.text  shouldBe "open plain arm ring with single knobbed terminals"
+    (heritageAssetIdentification \ "characters" \ "temporal" \ "displayDate").head.text  shouldBe "https://data.cultureelerfgoed.nl/term/id/abr/4bf24a9f-1f7d-497e-96a4-d4a0f42d564b"
     (heritageAssetIdentification \ "characters" \ "materials").head.text  shouldBe "metal"
     (heritageAssetIdentification \ "spatial" \ "locationSet" \ "namedLocation").head.text  shouldBe "Zaltbommel (undisclosed location)"
-    (heritageAssetIdentification \ "publicationStatement" \ "publisher").head.text  shouldBe "DANS/KNAW"
+    (heritageAssetIdentification \ "publicationStatement" \ "publisher").head.text  shouldBe "Uitgever ltd"
     (heritageAssetIdentification \ "rights" \ "copyrightCreditLine").head.text  shouldBe "Vrije Universiteit Amsterdam"
     (heritageAssetIdentification \ "rights" \ "accessRights").head.text  shouldBe "Open Access"
-    (heritageAssetIdentification \ "rights" \ "licence").head.text  shouldBe "http://creativecommons.org/licenses/by-nc-sa/4.0/"
-    (heritageAssetIdentification \ "rights" \ "europeanaRights").head.text  shouldBe "Creative Commons - Attribution, Non-Commercial, ShareAlike (BY-NC-SA)"
+    (heritageAssetIdentification \ "rights" \ "licence").head.text  shouldBe "http://creativecommons.org/publicdomain/zero/1.0"
+    (heritageAssetIdentification \ "rights" \ "europeanaRights").head.text  shouldBe "The Creative Commons CC0 1.0 Universal Public Domain Dedication (CC0)"
     (heritageAssetIdentification \ "references" \ "appellation" \ "name").head.text  shouldBe "Portable Antiquities of The Netherlands"
     (heritageAssetIdentification \ "references" \ "appellation" \ "id").head.text  shouldBe "https://www.portable-antiquities.nl/pan/#/object/public/9021"
-    (heritageAssetIdentification \ "hasRepresentation").head.text  shouldBe "10.17026/dans-z74-c65r/images/PAN-00009021-001.jpg"
+    (heritageAssetIdentification \ "hasRepresentation").head.text  shouldBe "10.5072/DAR/VZP5W1/images/PAN-00009021-001.jpg"
   }
 
   it should "produce a Carare XML-file with a correct digitalResource contents" in {
     val carareXml = transformToCarare(dataset)
     val digitalResource = (carareXml \ "carare" \ "digitalResource").head
 
-    (digitalResource \ "recordInformation" \ "id").text  shouldBe "10.17026/dans-z74-c65r/object.xml"
+    (digitalResource \ "recordInformation" \ "id").text  shouldBe "10.5072/DAR/VZP5W1/object.xml"
     (digitalResource \ "appellation" \ "name").text  shouldBe "object.xml"
     (digitalResource \ "appellation" \ "id").text  shouldBe "object.xml"
     (digitalResource \ "description").text  shouldBe "Technical description of the object in xml format"
     (digitalResource \ "format").text  shouldBe "text/xml"
-    (digitalResource \ "link").text  shouldBe s"https://download/location/$bagId/data/object%2Exml"
-    (digitalResource \ "object").text  shouldBe s"https://download/location/$bagId/data/object%2Exml"
-    (digitalResource \ "isShownAt").text  shouldBe "https://doi.org/10.17026/dans-z74-c65r"
+    (digitalResource \ "link").text  shouldBe ""
+    (digitalResource \ "object").text  shouldBe ""
+    (digitalResource \ "isShownAt").text  shouldBe "https://doi.org/10.5072/DAR/VZP5W1"
     (digitalResource \ "rights" \ "accessRights").text  shouldBe "Open Access"
-    (digitalResource \ "rights" \ "licence").text  shouldBe "http://creativecommons.org/licenses/by-nc-sa/4.0/"
+    (digitalResource \ "rights" \ "licence").text  shouldBe "http://creativecommons.org/publicdomain/zero/1.0"
   }
 
   private def transformToCarare(dataset: File): Node = {
