@@ -30,7 +30,7 @@ import scala.xml.{ Node, PrettyPrinter, XML }
 class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
 
   private val dataset = metadataDir / "metadata_DATAVERSE/dataset.xml"
-  private val dataverseToCarareXSL = "src/main/resources/dataverse_carare.xsl"
+  private val dataverseToCarareXSL = "src/main/resources/pan_dataverse_carare.xsl"
   private val carareXSD = "src/main/resources/carare-v2.0.6.xsd"
 
   val factory: TransformerFactory = TransformerFactory.newInstance()

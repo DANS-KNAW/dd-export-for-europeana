@@ -37,7 +37,6 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <!-- ==================================================== -->
 
     <!-- ==================================================== -->
     <!--            Carare collectionInformation              -->
@@ -143,10 +142,17 @@
             </creation>
 
             <!-- language -->
-            <language>
-                <xsl:value-of select="language[1]"/>
-            </language>
+            <xsl:apply-templates select="language"/>
 
+        </xsl:element>
+    </xsl:template>
+
+    <!-- ==================================================== -->
+    <!--                       language                       -->
+    <!-- ==================================================== -->
+    <xsl:template match="language">
+        <xsl:element name="language">
+            <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
 
@@ -253,7 +259,7 @@
 <!--            <xsl:attribute name="term">-->
 <!--                <xsl:value-of select="." />-->
 <!--            </xsl:attribute>-->
-<!--            <xsl:value-of select="."/>-->
+            <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
 
@@ -277,10 +283,11 @@
         </xsl:element>
     </xsl:template>
 
-    <!-- ==================================================== -->
-    <!--                      spatial                         -->
-    <!-- add (general area) or (undisclosed location) to tell Europeana not to show the location as a Point on a map -->
-    <!-- ==================================================== -->
+    <!-- ======================================================== -->
+    <!--                        spatial                           -->
+    <!-- add (general area) or (undisclosed location) to tell     -->
+    <!-- Europeana not to show the location as a Point on a map   -->
+    <!-- ======================================================== -->
     <xsl:template match="dansSpatialCoverageText">
         <xsl:element name="spatial">
             <xsl:element name="locationSet">
@@ -290,7 +297,6 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-
 
     <!-- ==================================================== -->
     <!--                 publicationStatement                 -->
@@ -311,7 +317,6 @@
 
             <xsl:if test="dansRightsHolder">
                 <copyrightCreditLine>
-                    <!--  ???-->
                     <xsl:value-of select="dansRightsHolder"/>
                 </copyrightCreditLine>
             </xsl:if>
@@ -392,7 +397,6 @@
         </xsl:element>
     </xsl:template>
 
-
     <!-- ==================================================== -->
     <!--                  hasRepresentation                   -->
     <!-- ==================================================== -->
@@ -411,70 +415,74 @@
     <!-- ==================================================== -->
     <xsl:template match="dataset/files/file">
 
-        <xsl:element name="digitalResource">
+        <xsl:if test="not(file/restricted)">
 
-            <xsl:variable name="fileName" select="filename"/>
+            <xsl:element name="digitalResource">
 
-            <!-- recordInformation -->
-            <recordInformation>
-                <id><xsl:value-of select="concat($doi, '/', $fileName)"/></id>
-            </recordInformation>
+                <xsl:variable name="fileName" select="filename"/>
 
-            <!-- appellation -->
-            <appellation>
-                <name lang="en"><xsl:value-of select="$fileName"/></name>
-                <id><xsl:value-of select="$fileName"/></id>
-            </appellation>
+                <!-- recordInformation -->
+                <recordInformation>
+                    <id><xsl:value-of select="concat($doi, '/', $fileName)"/></id>
+                </recordInformation>
 
-            <!-- description -->
-            <description lang="en">
-                <xsl:choose>
-                    <xsl:when test="contains($fileName, 'thesaurus-nl')">
-                        <xsl:value-of select="'Detailed information about the classification of this object in xml format, in Dutch'"/>
-                    </xsl:when>
-                    <xsl:when test="contains($fileName, 'thesaurus-en')">
-                        <xsl:value-of select="'Detailed information about the classification of this object in xml format, in English'"/>
-                    </xsl:when>
-                    <xsl:when test="contains($fileName, 'object')">
-                        <xsl:value-of select="'Technical description of the object in xml format'"/>
-                    </xsl:when>
-                    <xsl:when test="contains(./directoryLabel, 'images')">
-                        <xsl:value-of select="'Photo of the object'"/>
-                    </xsl:when>
-                </xsl:choose>
-            </description>
+                <!-- appellation -->
+                <appellation>
+                    <name lang="en"><xsl:value-of select="$fileName"/></name>
+                    <id><xsl:value-of select="$fileName"/></id>
+                </appellation>
 
-            <!-- format -->
-            <format>
-                <xsl:value-of select="contentType"/>
-            </format>
+                <!-- description -->
+                <description lang="en">
+                    <xsl:choose>
+                        <xsl:when test="contains($fileName, 'thesaurus-nl')">
+                            <xsl:value-of select="'Detailed information about the classification of this object in xml format, in Dutch'"/>
+                        </xsl:when>
+                        <xsl:when test="contains($fileName, 'thesaurus-en')">
+                            <xsl:value-of select="'Detailed information about the classification of this object in xml format, in English'"/>
+                        </xsl:when>
+                        <xsl:when test="contains($fileName, 'object')">
+                            <xsl:value-of select="'Technical description of the object in xml format'"/>
+                        </xsl:when>
+                        <xsl:when test="contains(./directoryLabel, 'images')">
+                            <xsl:value-of select="'Photo of the object'"/>
+                        </xsl:when>
+                    </xsl:choose>
+                </description>
 
-            <!-- link -->
-            <!-- ??? -->
-            <link>
-            </link>
+                <!-- format -->
+                <format>
+                    <xsl:value-of select="contentType"/>
+                </format>
 
-            <!-- object -->
-            <!-- ??? -->
-            <object>
-            </object>
+                <!-- link -->
+                <!-- ??? -->
+                <link>
+                </link>
 
-            <!-- isShownAt -->
-            <isShownAt>
-                <xsl:value-of select="$doi-url"/>
-            </isShownAt>
+                <!-- object -->
+                <!-- ??? -->
+                <object>
+                </object>
 
-            <!-- rights -->
-            <rights>
-                <accessRights>
-                    <xsl:value-of select="'Open Access'"/>
-                </accessRights>
-                <licence>
-                    <xsl:value-of select="/dataset/license/uri"/>
-                </licence>
-            </rights>
+                <!-- isShownAt -->
+                <isShownAt>
+                    <xsl:value-of select="$doi-url"/>
+                </isShownAt>
+
+                <!-- rights -->
+                <rights>
+                    <accessRights>
+                        <xsl:value-of select="'Open Access'"/>
+                    </accessRights>
+                    <licence>
+                        <xsl:value-of select="/dataset/license/uri"/>
+                    </licence>
+                </rights>
 
             </xsl:element>
+
+        </xsl:if>
     </xsl:template>
 
 </xsl:stylesheet>

@@ -56,7 +56,7 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
         elements.foreach(element => xml += getXml(namesAndValues, element))
         xml += getFilesXml(j \\ "files")
       }
-      ))
+      )).getOrElse(throw new Exception(metadata.get.message.get))
     xml += "</dataset>"
     XML.loadString(xml)
   }
@@ -97,10 +97,10 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
       val directoryLabel = f \\ "directoryLabel"
       val restricted = f \\ "restricted"
       val contentType = f \\ "contentType"
-      innerXml += getLeafXml(JString("filename"), filename)
+      val filesize = f \\ "filesize"
+      innerXml += getLeafXml(JString("filename"), filename) + getLeafXml(JString("filesize"), filesize)
+      innerXml += getLeafXml(JString("restricted"), restricted) + getLeafXml(JString("contentType"), contentType)
       if (directoryLabel.isInstanceOf[JString]) innerXml += getLeafXml(JString("directoryLabel"), directoryLabel)
-      if (restricted.values.toString.nonEmpty) innerXml += getLeafXml(JString("restricted"), restricted)
-      if (contentType.values.toString.nonEmpty) innerXml += getLeafXml(JString("contentType"), contentType)
       xml += "<file>" + innerXml + "</file>"
     })
     xml += "</files>"
