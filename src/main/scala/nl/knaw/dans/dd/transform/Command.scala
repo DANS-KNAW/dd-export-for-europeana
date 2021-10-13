@@ -64,6 +64,8 @@ object Command extends App with DebugEnhancedLogging {
 
   Console.err.println("transforming started...")
   for (doi <- singleDoi.map(Iterator(_)) getOrElse multipleDois;
-       output <- fileOutput(doi) getOrElse consoleOutput)
+       output <- fileOutput(doi) getOrElse consoleOutput) {
+    Console.err.println(s"transforming $doi")
     process(doi, output)
+  }
 }
