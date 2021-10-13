@@ -205,7 +205,6 @@
             </xsl:for-each>
 
             <!-- actorType -->
-            <!-- ??? -->
             <xsl:if test="./authorAffiliation">
                 <xsl:element name="actorType">
                      <xsl:value-of select="'organization'"/>
@@ -322,7 +321,6 @@
             </xsl:if>
 
             <accessRights>
-                <!--  ???-->
                 <xsl:variable name="restricted" select="/dataset/files/file/restricted[. = 'true'][1]"/>
                 <xsl:choose>
                     <xsl:when test="$restricted">
@@ -405,7 +403,7 @@
         <xsl:if test="$imageFilepath">
             <xsl:variable name="fileName" select="$imageFilepath/../filename"/>
             <xsl:element name="hasRepresentation">
-                <xsl:value-of select="concat($doi, '/images/', $fileName)"/>
+                <xsl:value-of select="concat($doi, substring($imageFilepath, 5) , '/', $fileName)"/>
             </xsl:element>
         </xsl:if>
     </xsl:template>
@@ -456,12 +454,10 @@
                 </format>
 
                 <!-- link -->
-                <!-- ??? -->
                 <link>
                 </link>
 
                 <!-- object -->
-                <!-- ??? -->
                 <object>
                 </object>
 

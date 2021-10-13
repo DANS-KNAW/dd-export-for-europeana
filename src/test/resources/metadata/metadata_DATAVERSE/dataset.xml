@@ -44,22 +44,33 @@
             <filename>object.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
+            <filesize>33399</filesize>
         </file>
         <file>
             <filename>thesaurus-nl.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
+            <filesize>27044</filesize>
         </file>
         <file>
             <filename>thesaurus-en.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
+            <filesize>1926</filesize>
+        </file>
+        <file>
+            <filename>PAN-00009020-001.jpg</filename>
+            <directoryLabel>data/images</directoryLabel>
+            <restricted>false</restricted>
+            <contentType>image/jpeg</contentType>
+            <filesize>16000</filesize>
         </file>
         <file>
             <filename>PAN-00009021-001.jpg</filename>
             <directoryLabel>data/images</directoryLabel>
             <restricted>false</restricted>
             <contentType>image/jpeg</contentType>
+            <filesize>16364</filesize>
         </file>
     </files>
 </dataset>

@@ -15,22 +15,21 @@
  */
 package nl.knaw.dans.dd.transform
 
-import java.io.{ StringReader, StringWriter }
-
 import better.files.File
-import javax.xml.XMLConstants
-import javax.xml.transform.stream.{ StreamResult, StreamSource }
-import javax.xml.transform.{ Source, Transformer, TransformerFactory }
-import javax.xml.validation.{ Schema, SchemaFactory, Validator }
 import nl.knaw.dans.dd.transform.fixture.TestSupportFixture
 import org.scalatest.BeforeAndAfterEach
 
-import scala.xml.{ Node, PrettyPrinter, XML }
+import java.io.{StringReader, StringWriter}
+import javax.xml.XMLConstants
+import javax.xml.transform.stream.{StreamResult, StreamSource}
+import javax.xml.transform.{Source, Transformer, TransformerFactory}
+import javax.xml.validation.{Schema, SchemaFactory, Validator}
+import scala.xml.{Node, PrettyPrinter, XML}
 
-class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
+class XmlPanToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
 
   private val dataset = metadataDir / "metadata_DATAVERSE/dataset.xml"
-  private val dataverseToCarareXSL = "src/main/resources/dataverse_carare.xsl"
+  private val dataverseToCarareXSL = "src/main/resources/pan_dataverse_carare.xsl"
   private val carareXSD = "src/main/resources/carare-v2.0.6.xsd"
 
   val factory: TransformerFactory = TransformerFactory.newInstance()
@@ -51,10 +50,10 @@ class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
   it should "produce a Carare XML-file with a correct structure" in {
     val carareXml = transformToCarare(dataset)
 
-    (carareXml \ "carare").head.child should have size 4
+    (carareXml \ "carare").head.child should have size 7
     carareXml \ "carare" \ "collectionInformation" should have size 1
     carareXml \ "carare" \ "heritageAssetIdentification" should have size 1
-    carareXml \ "carare" \ "digitalResource" should have size 2
+    carareXml \ "carare" \ "digitalResource" should have size 5
   }
 
   it should "produce a Carare XML-file with a correct id" in {
@@ -68,9 +67,9 @@ class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
     val carareXml = transformToCarare(dataset)
     val collectionInformation = carareXml \ "carare" \ "collectionInformation"
 
-    (collectionInformation \ "title").text  shouldBe "Archeologische datasets in EASY (DANS-EASY)"
+    (collectionInformation \ "title").text  shouldBe "Portable Antiquities of The Netherlands (DANS-PAN)"
     (collectionInformation \ "contacts" \ "organization").text  shouldBe "Data Archiving and Networked Services (DANS)"
-    (collectionInformation \ "rights" \ "licence").text  shouldBe "http://creativecommons.org/licenses/"
+    (collectionInformation \ "rights" \ "licence").text  shouldBe "http://creativecommons.org/licenses/by-nc-sa/4.0/"
     (collectionInformation \ "coverage" \ "spatial" \ "locationSet" \ "geopoliticalArea").text  shouldBe "the Netherlands (general area)"
   }
 
@@ -80,11 +79,11 @@ class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
 
     (heritageAssetIdentification \ "recordInformation" \ "id").text  shouldBe "10.5072/DAR/VZP5W1"
     (heritageAssetIdentification \ "recordInformation" \ "creation" \ "date").text  shouldBe "2021-10-06"
-    (heritageAssetIdentification \ "recordInformation" \ "language").head.text  shouldBe "English" //    (heritageAssetIdentification \ "recordInformation" \ "language").head.attribute("lang").get.text shouldBe "dcterms:ISO639-2"
+    (heritageAssetIdentification \ "recordInformation" \ "language").head.text  shouldBe "English"
     (heritageAssetIdentification \ "appellation" \ "name").head.text  shouldBe "PAN-00009021 - open plain arm ring with single knobbed terminals"
     (heritageAssetIdentification \ "appellation" \ "id").head.text  shouldBe "10.5072/DAR/VZP5W1"
     (heritageAssetIdentification \ "description").head.text  shouldBe "This find is registered at Portable Antiquities of the Netherlands with number PAN-00009021"
-    (heritageAssetIdentification \ "generalType").head.text  shouldBe "Image"
+    (heritageAssetIdentification \ "generalType").head.text  shouldBe "Artefact"
     (heritageAssetIdentification \ "actors" \ "name").head.text  shouldBe "Admin, Dataverse"
     (heritageAssetIdentification \ "actors" \ "actorType").head.text  shouldBe "organization"
     (heritageAssetIdentification \ "actors" \ "roles").head.text  shouldBe "Data Collector"
@@ -102,18 +101,18 @@ class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
     (heritageAssetIdentification \ "rights" \ "europeanaRights").head.text  shouldBe "The Creative Commons CC0 1.0 Universal Public Domain Dedication (CC0)"
     (heritageAssetIdentification \ "references" \ "appellation" \ "name").head.text  shouldBe "Portable Antiquities of The Netherlands"
     (heritageAssetIdentification \ "references" \ "appellation" \ "id").head.text  shouldBe "https://www.portable-antiquities.nl/pan/#/object/public/9021"
-    (heritageAssetIdentification \ "hasRepresentation").head.text  shouldBe "10.5072/DAR/VZP5W1/images/PAN-00009021-001.jpg"
+    (heritageAssetIdentification \ "hasRepresentation").head.text  shouldBe "10.5072/DAR/VZP5W1/images/PAN-00009020-001.jpg"
   }
 
   it should "produce a Carare XML-file with a correct digitalResource contents" in {
     val carareXml = transformToCarare(dataset)
     val digitalResource = (carareXml \ "carare" \ "digitalResource").head
 
-    (digitalResource \ "recordInformation" \ "id").text  shouldBe "10.5072/DAR/VZP5W1/PAN-00009021-001.jpg"
-    (digitalResource \ "appellation" \ "name").text  shouldBe "PAN-00009021-001.jpg"
-    (digitalResource \ "appellation" \ "id").text  shouldBe "PAN-00009021-001.jpg"
-    (digitalResource \ "description").text  shouldBe "Photo of the object"
-    (digitalResource \ "format").text  shouldBe "image/jpeg"
+    (digitalResource \ "recordInformation" \ "id").text  shouldBe "10.5072/DAR/VZP5W1/object.xml"
+    (digitalResource \ "appellation" \ "name").text  shouldBe "object.xml"
+    (digitalResource \ "appellation" \ "id").text  shouldBe "object.xml"
+    (digitalResource \ "description").text  shouldBe "Technical description of the object in xml format"
+    (digitalResource \ "format").text  shouldBe "text/xml"
     (digitalResource \ "link").text  shouldBe ""
     (digitalResource \ "object").text  shouldBe ""
     (digitalResource \ "isShownAt").text  shouldBe "https://doi.org/10.5072/DAR/VZP5W1"
