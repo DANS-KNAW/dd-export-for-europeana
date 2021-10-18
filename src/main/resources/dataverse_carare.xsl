@@ -465,11 +465,13 @@
                     <xsl:value-of select="contentType"/>
                 </format>
 
+                <xsl:variable name="downloadURL" select="/dataset/downloadUrl"/>
+                <xsl:variable name="fileId" select="id"/>
                 <!-- object -->
                 <object>
+                    <xsl:value-of select="concat($downloadURL, 'api/access/datafile/', $fileId)"/>
                 </object>
 
-                <!--   isShownAt   -->
                 <!-- isShownAt -->
                 <isShownAt>
                     <xsl:value-of select="$doi-url"/>

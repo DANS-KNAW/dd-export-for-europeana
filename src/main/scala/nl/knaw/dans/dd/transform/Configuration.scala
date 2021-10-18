@@ -24,7 +24,7 @@ import org.apache.commons.configuration.PropertiesConfiguration
 
 case class Configuration(version: String,
                          dataverseConfig: DataverseConfig,
-                         downloadURL: URI,
+                         downloadURL: String,
                         )
 
 object Configuration extends DebugEnhancedLogging {
@@ -53,7 +53,7 @@ object Configuration extends DebugEnhancedLogging {
         unblockKey = properties.getString("dataverse.unblockKey"),
         apiToken = properties.getString("dataverse.api-key")
       ),
-      downloadURL = new URI(properties.getString("download.base-url")),
+      downloadURL = properties.getString("download.base-url"),
     )
   }
 }

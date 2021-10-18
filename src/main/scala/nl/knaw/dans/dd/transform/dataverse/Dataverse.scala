@@ -32,6 +32,7 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
   val readTimeout: Int = configuration.dataverseConfig.readTimeout
   val unblockKey: String = configuration.dataverseConfig.unblockKey
   val apiToken: String = configuration.dataverseConfig.apiToken
+  val downloadURL: String = configuration.downloadURL
   val server = new DataverseInstance(
     DataverseInstanceConfig(
       baseUrl = baseUrl,
@@ -54,6 +55,7 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
         val namesAndValues = getNamesAndValues(j \\ "data")
         xml += getPid(j) + getLicense(j)
         elements.foreach(element => xml += getXml(namesAndValues, element))
+        xml += s"<downloadUrl>$downloadURL</downloadUrl>"
         xml += getFilesXml(j \\ "files")
       }
       )).getOrElse(throw new Exception(metadata.get.message.get))
@@ -93,12 +95,13 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
     val files = j.children
     files.foreach(f => {
       var innerXml = ""
+      val id = f \\ "id"
       val filename = f \\ "filename"
       val directoryLabel = f \\ "directoryLabel"
       val restricted = f \\ "restricted"
       val contentType = f \\ "contentType"
       val filesize = f \\ "filesize"
-      innerXml += getLeafXml(JString("filename"), filename) + getLeafXml(JString("filesize"), filesize)
+      innerXml += getLeafXml(JString("id"), id)  + getLeafXml(JString("filename"), filename) + getLeafXml(JString("filesize"), filesize)
       innerXml += getLeafXml(JString("restricted"), restricted) + getLeafXml(JString("contentType"), contentType)
       if (directoryLabel.isInstanceOf[JString]) innerXml += getLeafXml(JString("directoryLabel"), directoryLabel)
       xml += "<file>" + innerXml + "</file>"

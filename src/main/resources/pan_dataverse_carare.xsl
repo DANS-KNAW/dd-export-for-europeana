@@ -453,12 +453,16 @@
                     <xsl:value-of select="contentType"/>
                 </format>
 
+                <xsl:variable name="downloadURL" select="/dataset/downloadUrl"/>
+                <xsl:variable name="fileId" select="id"/>
                 <!-- link -->
                 <link>
+                    <xsl:value-of select="concat($downloadURL, 'api/access/datafile/', $fileId)"/>
                 </link>
 
                 <!-- object -->
                 <object>
+                    <xsl:value-of select="concat($downloadURL, 'api/access/datafile/', $fileId)"/>
                 </object>
 
                 <!-- isShownAt -->

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dataset>
+    <downloadUrl>https://dar.dans.knaw.nl/</downloadUrl>
     <datasetPersistentId>doi:10.5072/DAR/VZP5W1</datasetPersistentId>
     <license>
         <label>CC0-1.0</label>
@@ -41,24 +42,28 @@
     <dansRightsHolder>Vrije Universiteit Amsterdam</dansRightsHolder>
     <files>
         <file>
+            <id>1</id>
             <filename>object.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
             <filesize>33399</filesize>
         </file>
         <file>
+            <id>2</id>
             <filename>thesaurus-nl.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
             <filesize>27044</filesize>
         </file>
         <file>
+            <id>3</id>
             <filename>thesaurus-en.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
             <filesize>1926</filesize>
         </file>
         <file>
+            <id>4</id>
             <filename>PAN-00009020-001.jpg</filename>
             <directoryLabel>data/images</directoryLabel>
             <restricted>false</restricted>
@@ -66,6 +71,7 @@
             <filesize>16000</filesize>
         </file>
         <file>
+            <id>5</id>
             <filename>PAN-00009021-001.jpg</filename>
             <directoryLabel>data/images</directoryLabel>
             <restricted>false</restricted>
