@@ -55,7 +55,6 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
         val namesAndValues = getNamesAndValues(j \\ "data")
         xml += getPid(j) + getLicense(j)
         elements.foreach(element => xml += getXml(namesAndValues, element))
-        xml += s"<downloadUrl>$downloadURL</downloadUrl>"
         xml += getFilesXml(j \\ "files")
       }
       )).getOrElse(throw new Exception(metadata.get.message.get))
@@ -92,6 +91,7 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
 
   private def getFilesXml(j: JValue): String = {
     var xml = "<files>"
+    xml += s"<downloadUrl>$downloadURL</downloadUrl>"
     val files = j.children
     files.foreach(f => {
       var innerXml = ""

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dataset>
-    <downloadUrl>https://dar.dans.knaw.nl/</downloadUrl>
     <datasetPersistentId>doi:10.5072/DAR/VZP5W1</datasetPersistentId>
     <license>
         <label>CC0-1.0</label>
@@ -41,6 +40,7 @@
     <dansSpatialCoverageText>NLD</dansSpatialCoverageText>
     <dansRightsHolder>Vrije Universiteit Amsterdam</dansRightsHolder>
     <files>
+        <downloadUrl>https://dar.dans.knaw.nl/</downloadUrl>
         <file>
             <id>1</id>
             <filename>object.xml</filename>

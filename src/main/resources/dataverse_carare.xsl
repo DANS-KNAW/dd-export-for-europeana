@@ -465,7 +465,7 @@
                     <xsl:value-of select="contentType"/>
                 </format>
 
-                <xsl:variable name="downloadURL" select="/dataset/downloadUrl"/>
+                <xsl:variable name="downloadURL" select="/dataset/files/downloadUrl"/>
                 <xsl:variable name="fileId" select="id"/>
                 <!-- object -->
                 <object>
