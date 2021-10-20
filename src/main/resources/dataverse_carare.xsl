@@ -116,7 +116,7 @@
             <!--   rights   -->
             <xsl:call-template name="rights"/>
             <!--   references   -->
-            <xsl:call-template name="references"/>
+            <xsl:apply-templates select="dansRelation"/>
             <!--   hasRepresentation   -->
             <xsl:call-template name="hasRepresentation"/>
         </xsl:element>
@@ -228,11 +228,6 @@
 
             <!-- actorType -->
             <xsl:if test="./authorAffiliation">
-                <xsl:element name="actorType">
-                    <xsl:value-of select="'organization'"/>
-                </xsl:element>
-            </xsl:if>
-            <xsl:if test="not(./authorAffiliation)">
                 <xsl:element name="actorType">
                     <xsl:value-of select="'individual'"/>
                 </xsl:element>
@@ -400,20 +395,22 @@
     <!-- ==================================================== -->
     <!--                      references                      -->
     <!-- ==================================================== -->
-    <xsl:template name="references">
-        <xsl:element name="references">
-            <xsl:element name="appellation">
-                <xsl:element name="name">
-                    <xsl:attribute name="lang">
-                        <xsl:value-of select="'en'" />
-                    </xsl:attribute>
-                    <xsl:value-of select="alternativeTitle"/>
-                </xsl:element>
-                <xsl:element name="id">
-                    <xsl:value-of select="alternativeURL"/>
+    <xsl:template match="dansRelation">
+        <xsl:if test="dansRelationType='references'">
+            <xsl:element name="references">
+                <xsl:element name="appellation">
+                    <xsl:element name="name">
+                        <xsl:attribute name="lang">
+                            <xsl:value-of select="'en'" />
+                        </xsl:attribute>
+                        <xsl:value-of select="dansRelationText"/>
+                    </xsl:element>
+                    <xsl:element name="id">
+                        <xsl:value-of select="dansRelationURI"/>
+                    </xsl:element>
                 </xsl:element>
             </xsl:element>
-        </xsl:element>
+        </xsl:if>
     </xsl:template>
 
     <!-- ==================================================== -->

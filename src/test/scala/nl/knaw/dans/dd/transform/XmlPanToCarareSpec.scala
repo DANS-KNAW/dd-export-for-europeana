@@ -85,7 +85,7 @@ class XmlPanToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
     (heritageAssetIdentification \ "description").head.text  shouldBe "This find is registered at Portable Antiquities of the Netherlands with number PAN-00009021"
     (heritageAssetIdentification \ "generalType").head.text  shouldBe "Artefact"
     (heritageAssetIdentification \ "actors" \ "name").head.text  shouldBe "Admin, Dataverse"
-    (heritageAssetIdentification \ "actors" \ "actorType").head.text  shouldBe "organization"
+    (heritageAssetIdentification \ "actors" \ "actorType").head.text  shouldBe "individual"
     (heritageAssetIdentification \ "actors" \ "roles").head.text  shouldBe "Data Collector"
 //    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.text  shouldBe "open plain arm ring with single knobbed terminals"
 //    (heritageAssetIdentification \ "characters" \ "heritageAssetType").head.attribute("namespace").get.text  shouldBe "https://data.cultureelerfgoed.nl/term/id/pan/PAN"
@@ -99,8 +99,8 @@ class XmlPanToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
     (heritageAssetIdentification \ "rights" \ "accessRights").head.text  shouldBe "Open Access"
     (heritageAssetIdentification \ "rights" \ "licence").head.text  shouldBe "http://creativecommons.org/publicdomain/zero/1.0"
     (heritageAssetIdentification \ "rights" \ "europeanaRights").head.text  shouldBe "The Creative Commons CC0 1.0 Universal Public Domain Dedication (CC0)"
-    (heritageAssetIdentification \ "references" \ "appellation" \ "name").head.text  shouldBe "Portable Antiquities of The Netherlands"
-    (heritageAssetIdentification \ "references" \ "appellation" \ "id").head.text  shouldBe "https://www.portable-antiquities.nl/pan/#/object/public/9021"
+    (heritageAssetIdentification \ "references" \ "appellation" \ "name").head.text  shouldBe "esimerkki"
+    (heritageAssetIdentification \ "references" \ "appellation" \ "id").head.text  shouldBe "https://url.to.relation.nl/"
     (heritageAssetIdentification \ "hasRepresentation").head.text  shouldBe "10.5072/DAR/VZP5W1/images/PAN-00009020-001.jpg"
   }
 

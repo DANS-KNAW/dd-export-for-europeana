@@ -115,7 +115,7 @@
             <xsl:call-template name="rights"/>
 
             <!-- references -->
-            <xsl:call-template name="references"/>
+            <xsl:apply-templates select="dansRelation"/>
 
             <!-- hasRepresentation -->
             <xsl:call-template name="hasRepresentation"/>
@@ -207,12 +207,7 @@
             <!-- actorType -->
             <xsl:if test="./authorAffiliation">
                 <xsl:element name="actorType">
-                     <xsl:value-of select="'organization'"/>
-                </xsl:element>
-            </xsl:if>
-            <xsl:if test="not(./authorAffiliation)">
-                <xsl:element name="actorType">
-                    <xsl:value-of select="'individual'"/>
+                     <xsl:value-of select="'individual'"/>
                 </xsl:element>
             </xsl:if>
 
@@ -321,15 +316,7 @@
             </xsl:if>
 
             <accessRights>
-                <xsl:variable name="restricted" select="/dataset/files/file/restricted[. = 'true'][1]"/>
-                <xsl:choose>
-                    <xsl:when test="$restricted">
-                        <xsl:value-of select="'Restricted Access'"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="'Open Access'"/>
-                    </xsl:otherwise>
-                </xsl:choose>
+                <xsl:value-of select="'Open Access'"/>
             </accessRights>
 
             <xsl:variable name="uri" select="license/uri"/>
@@ -379,20 +366,22 @@
     <!-- ==================================================== -->
     <!--                      references                      -->
     <!-- ==================================================== -->
-    <xsl:template name="references">
-        <xsl:element name="references">
-            <xsl:element name="appellation">
-                <xsl:element name="name">
-                    <xsl:attribute name="lang">
-                        <xsl:value-of select="'en'" />
-                    </xsl:attribute>
-                    <xsl:value-of select="alternativeTitle"/>
-                </xsl:element>
-                <xsl:element name="id">
-                    <xsl:value-of select="alternativeURL"/>
+    <xsl:template match="dansRelation">
+        <xsl:if test="dansRelationType='references'">
+            <xsl:element name="references">
+                <xsl:element name="appellation">
+                    <xsl:element name="name">
+                        <xsl:attribute name="lang">
+                            <xsl:value-of select="'en'" />
+                        </xsl:attribute>
+                        <xsl:value-of select="dansRelationText"/>
+                    </xsl:element>
+                    <xsl:element name="id">
+                        <xsl:value-of select="dansRelationURI"/>
+                    </xsl:element>
                 </xsl:element>
             </xsl:element>
-        </xsl:element>
+        </xsl:if>
     </xsl:template>
 
     <!-- ==================================================== -->

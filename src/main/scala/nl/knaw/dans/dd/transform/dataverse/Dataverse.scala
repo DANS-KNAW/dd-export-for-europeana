@@ -45,10 +45,10 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
 
   def getMetadata(doi: String): Try[Elem] = Try {
     var xml = "<dataset>"
-    val elements = List(("license", true), ("title", false), ("alternative", false), ("dsDescription", true),
-      ("dateOfDeposit", false), ("dateOfCollection", true), ("language", false), ("author", true), ("distributor", true), ("subject", false),
+    val elements = List(("license", true), ("title", false), ("dsDescription", true), ("dateOfDeposit", false),
+      ("dateOfCollection", true), ("language", false), ("author", true), ("distributor", true), ("subject", false),
       ("keyword", true), ("contributor", true), ("dansTemporal", false), ("topic", true), ("otherReferences", false), ("dansAbr", false),
-      ("dansSpatial", true), ("dansSpatialCoverage", false), ("dataSources", false), ("dansRights", false))
+      ("dansSpatial", true), ("dansSpatialCoverage", false), ("dataSources", false), ("dansRights", false), ("dansRelation", true))
     val metadata = server.dataset(doi).view(Version.LATEST_PUBLISHED)
     metadata.map(m =>
       m.json.map(j => {

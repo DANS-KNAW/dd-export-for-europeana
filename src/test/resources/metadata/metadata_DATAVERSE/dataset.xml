@@ -6,8 +6,6 @@
         <uri>http://creativecommons.org/publicdomain/zero/1.0</uri>
     </license>
     <title>PAN-00009021 - open plain arm ring with single knobbed terminals</title>
-    <alternativeTitle>Portable Antiquities of The Netherlands</alternativeTitle>
-    <alternativeURL>https://www.portable-antiquities.nl/pan/#/object/public/9021</alternativeURL>
     <dsDescription>
         <dsDescriptionValue>This find is registered at Portable Antiquities of the Netherlands with number PAN-00009021</dsDescriptionValue>
     </dsDescription>
@@ -39,6 +37,11 @@
     <dansSpatialCoverageText>Zaltbommel</dansSpatialCoverageText>
     <dansSpatialCoverageText>NLD</dansSpatialCoverageText>
     <dansRightsHolder>Vrije Universiteit Amsterdam</dansRightsHolder>
+    <dansRelation>
+        <dansRelationType>references</dansRelationType>
+        <dansRelationURI>https://url.to.relation.nl/</dansRelationURI>
+        <dansRelationText>esimerkki</dansRelationText>
+    </dansRelation>
     <files>
         <downloadUrl>https://dar.dans.knaw.nl/</downloadUrl>
         <file>
