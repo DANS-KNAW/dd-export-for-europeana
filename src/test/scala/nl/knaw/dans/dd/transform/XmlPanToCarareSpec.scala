@@ -28,7 +28,7 @@ import scala.xml.{Node, PrettyPrinter, XML}
 
 class XmlPanToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
 
-  private val dataset = metadataDir / "metadata_DATAVERSE/dataset.xml"
+  private val dataset = metadataDir / "metadata_PAN_DATAVERSE/dataset.xml"
   private val dataverseToCarareXSL = "src/main/resources/pan_dataverse_carare.xsl"
   private val carareXSD = "src/main/resources/carare-v2.0.6.xsd"
 

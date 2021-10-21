@@ -121,7 +121,8 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
 
   private def getLeafXmlElements(name: String, value: String): String = {
     if (name == "dansAbrComplex") {
-      // label and SchemeUri of AbrComplex are not stored in Dataverse
+      // Label and SchemeUri of AbrComplex are not stored in Dataverse. We fetch them from data.cultureelerfgoed.nl
+      // From dansAbrComplex leaf element we create here a complex element in the output.
       var xml = s"<dansAbrComplex><dansAbrComplexTermUID>$value</dansAbrComplexTermUID>"
       val labelAndScheme = abr.getAbrLabelAndScheme(value)
       if (labelAndScheme.isSuccess)

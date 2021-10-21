@@ -50,31 +50,40 @@
         <downloadUrl>https://dar.dans.knaw.nl/</downloadUrl>
         <file>
             <id>1</id>
-            <filename>tiedosto-1.pdf</filename>
-            <restricted>false</restricted>
-            <contentType>text/xml</contentType>
-            <filesize>27044</filesize>
-        </file>
-        <file>
-            <id>2</id>
-            <filename>tiedosto-2.pdf</filename>
+            <filename>object.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
             <filesize>33399</filesize>
         </file>
         <file>
+            <id>2</id>
+            <filename>thesaurus-nl.xml</filename>
+            <restricted>false</restricted>
+            <contentType>text/xml</contentType>
+            <filesize>27044</filesize>
+        </file>
+        <file>
             <id>3</id>
-            <filename>tiedosto-3.pdf</filename>
+            <filename>thesaurus-en.xml</filename>
             <restricted>false</restricted>
             <contentType>text/xml</contentType>
             <filesize>1926</filesize>
         </file>
         <file>
             <id>4</id>
-            <filename>tiedosto-4.doc</filename>
-            <restricted>true</restricted>
-            <contentType>application/msword</contentType>
+            <filename>PAN-00009020-001.jpg</filename>
+            <directoryLabel>data/images</directoryLabel>
+            <restricted>false</restricted>
+            <contentType>image/jpeg</contentType>
             <filesize>16000</filesize>
+        </file>
+        <file>
+            <id>5</id>
+            <filename>PAN-00009021-001.jpg</filename>
+            <directoryLabel>data/images</directoryLabel>
+            <restricted>false</restricted>
+            <contentType>image/jpeg</contentType>
+            <filesize>16364</filesize>
         </file>
     </files>
 </dataset>
