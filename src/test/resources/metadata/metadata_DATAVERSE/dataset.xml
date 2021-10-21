@@ -32,7 +32,11 @@
     <contributor>
         <contributorType>Editor</contributorType>
     </contributor>
-    <dansAbrComplex>https://data.cultureelerfgoed.nl/term/id/abr/689ebb47-4f4b-41be-8b5a-cedcf4786363</dansAbrComplex>
+    <dansAbrComplex>
+        <dansAbrComplexTermUID>https://data.cultureelerfgoed.nl/term/id/abr/2b2e5696-56e7-4e5a-9e16-1f7505611310</dansAbrComplexTermUID>
+        <dansAbrComplexTerm>slagveld</dansAbrComplexTerm>
+        <dansAbrComplexScheme>https://data.cultureelerfgoed.nl/term/id/abr/b6df7840-67bf-48bd-aa56-7ee39435d2ed</dansAbrComplexScheme>
+    </dansAbrComplex>
     <dansAbrPeriod>https://data.cultureelerfgoed.nl/term/id/abr/4bf24a9f-1f7d-497e-96a4-d4a0f42d564b</dansAbrPeriod>
     <dansSpatialCoverageText>Zaltbommel</dansSpatialCoverageText>
     <dansSpatialCoverageText>NLD</dansSpatialCoverageText>

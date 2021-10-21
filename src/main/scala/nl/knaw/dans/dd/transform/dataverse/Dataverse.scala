@@ -16,6 +16,7 @@
 package nl.knaw.dans.dd.transform.dataverse
 
 import nl.knaw.dans.dd.transform.Configuration
+import nl.knaw.dans.dd.transform.abr.Abr
 import nl.knaw.dans.lib.dataverse.{DataverseInstance, DataverseInstanceConfig, DataverseResponse, Version}
 import nl.knaw.dans.lib.logging.DebugEnhancedLogging
 import org.json4s.JsonAST.{JArray, JString, JValue}
@@ -42,6 +43,7 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
       readTimeout = readTimeout,
     )
   )
+  private val abr = new Abr(configuration)
 
   def getMetadata(doi: String): Try[Elem] = Try {
     var xml = "<dataset>"
@@ -113,8 +115,23 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
   private def getLeafXml(name: JValue, value: JValue): String = {
     var xml = ""
     val leafValues = if (value.isInstanceOf[JArray]) value.children else List(value)
-    leafValues.foreach(v => xml += s"<${name.values.toString}>${v.values.toString.trim}</${name.values.toString}>")
+    leafValues.foreach(v => xml += getLeafXmlElements(name.values.toString, v.values.toString.trim))
     xml
+  }
+
+  private def getLeafXmlElements(name: String, value: String): String = {
+    if (name == "dansAbrComplex") {
+      // label and SchemeUri of AbrComplex are not stored in Dataverse
+      var xml = s"<dansAbrComplex><dansAbrComplexTermUID>$value</dansAbrComplexTermUID>"
+      val labelAndScheme = abr.getAbrLabelAndScheme(value)
+      if (labelAndScheme.isSuccess)
+        xml += s"<dansAbrComplexTerm>${labelAndScheme.get._1}</dansAbrComplexTerm><dansAbrComplexScheme>${labelAndScheme.get._2}</dansAbrComplexScheme>"
+      else
+        logger.error(s"Could not retrieve AbrComplexLabel and AbrComplexSchemeUri for $value. Reason: $labelAndScheme")
+      xml + "</dansAbrComplex>"
+    }
+    else
+      s"<$name>$value</$name>"
   }
 
   private def getCompoundXml(name: JValue, value: JValue): String = {

@@ -13,16 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.knaw.dans.dd.transform
+package nl.knaw.dans.dd.transform.abr
 
-import scala.xml.Node
-
-object XmlWrapper {
-
-  def wrap(datasetXml: Node, filesXml: Node): Node = {
-    <bagmetadata xmlns="http://easy.dans.knaw.nl/schemas/bag/metadata/bagmetadata/">
-      { datasetXml }
-      { filesXml }
-    </bagmetadata>
-  }
-}
+case class AbrConfig(connectTimeout: Long, readTimeout: Long)

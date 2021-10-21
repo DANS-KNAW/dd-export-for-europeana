@@ -15,20 +15,11 @@
  */
 package nl.knaw.dans.dd
 
+import scalaj.http.HttpResponse
+
 package object transform {
 
   type Doi = String
-  type FileId = String
 
-  object AccessRights extends Enumeration {
-    type AccessRights = Value
-    val OPEN_ACCESS, OPEN_ACCESS_FOR_REGISTERED_USERS, REQUEST_PERMISSION, NO_ACCESS = Value
-  }
-
-  object AccessibleToRights extends Enumeration {
-    type AccessibleToRights = Value
-    val ANONYMOUS, KNOWN, RESTRICTED_REQUEST, NONE = Value
-  }
-
-  val VisibleToRights = AccessibleToRights
+  case class HttpStatusException(msg: String, response: HttpResponse[String]) extends Exception(s"$msg - ${ response.statusLine }, details: ${ response.body }")
 }

@@ -18,12 +18,14 @@ package nl.knaw.dans.dd.transform
 import java.net.URI
 import better.files.File
 import better.files.File.root
+import nl.knaw.dans.dd.transform.abr.AbrConfig
 import nl.knaw.dans.dd.transform.dataverse.DataverseConfig
 import nl.knaw.dans.lib.logging.DebugEnhancedLogging
 import org.apache.commons.configuration.PropertiesConfiguration
 
 case class Configuration(version: String,
                          dataverseConfig: DataverseConfig,
+                         abrConfig: AbrConfig,
                          downloadURL: String,
                         )
 
@@ -53,6 +55,11 @@ object Configuration extends DebugEnhancedLogging {
         unblockKey = properties.getString("dataverse.unblockKey"),
         apiToken = properties.getString("dataverse.api-key")
       ),
+      abrConfig = AbrConfig(
+        connectTimeout = properties.getLong("abr.timeout_ms.connect"),
+        readTimeout = properties.getLong("abr.timeout_ms.read"),
+      ),
+
       downloadURL = properties.getString("download.base-url"),
     )
   }

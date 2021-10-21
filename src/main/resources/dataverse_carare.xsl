@@ -266,16 +266,16 @@
     <!-- ==================================================== -->
     <xsl:template match="dansAbrComplex">
         <xsl:element name="heritageAssetType">
-            <!--            <xsl:attribute name="namespace">-->
-            <!--                <xsl:value-of select="." />-->
-            <!--            </xsl:attribute>-->
-            <xsl:attribute name="termUID">
-                <xsl:value-of select="." />
+            <xsl:attribute name="namespace">
+                <xsl:value-of select="dansAbrComplexScheme" />
             </xsl:attribute>
-            <!--            <xsl:attribute name="term">-->
-            <!--                <xsl:value-of select="." />-->
-            <!--            </xsl:attribute>-->
-            <xsl:value-of select="."/>
+            <xsl:attribute name="termUID">
+                <xsl:value-of select="dansAbrComplexTermUID" />
+            </xsl:attribute>
+            <xsl:attribute name="term">
+                <xsl:value-of select="dansAbrComplexTerm" />
+            </xsl:attribute>
+            <xsl:value-of select="dansAbrComplexTerm"/>
         </xsl:element>
     </xsl:template>
 
