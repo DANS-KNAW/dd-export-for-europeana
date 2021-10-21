@@ -1,19 +1,8 @@
 <xsl:stylesheet xmlns="http://www.carare.eu/carareSchema" xmlns:bagmetadata="http://easy.dans.knaw.nl/schemas/bag/metadata/bagmetadata/" xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/" xmlns:files="http://easy.dans.knaw.nl/schemas/bag/metadata/files/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/" xmlns:gml="http://www.opengis.net/gml" xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:str="http://exslt.org/strings" exclude-result-prefixes="not xs xsi dc dcterms dcx-dai gml dcx-gml fn str bagmetadata ddm files" version="2.0">
     <xsl:variable name="doi" select="substring-after(/dataset/datasetPersistentId, 'doi:')"/>
     <xsl:variable name="doi-url" select="concat('https://doi.org/', $doi)"/>
-    <xsl:variable name="noImages" select="count(/dataset/files/file[starts-with(contentType, 'image')]) = 0"/>
-    <xsl:variable name="useFormat">
-        <xsl:choose>
-            <xsl:when test="$noImages">
-                <xsl:text>application/pdf</xsl:text>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:text>image</xsl:text>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
     <xsl:variable name="maxFileSize">
-        <xsl:for-each select="/dataset/files/file[starts-with(contentType, $useFormat)]">
+        <xsl:for-each select="/dataset/files/file[contains(restricted, 'false')]">
             <xsl:sort select="filesize"  data-type="number" order="descending"/>
             <xsl:if test="position() = 1">
                 <xsl:value-of select="filesize"/>
@@ -39,7 +28,7 @@
                 <!--   heritageAssetIdentification   -->
                 <xsl:apply-templates select="dataset"/>
                 <!--   digitalResource   -->
-                <xsl:apply-templates select="dataset/files/file[starts-with(contentType, $useFormat)]">
+                <xsl:apply-templates select="dataset/files/file[contains(restricted, 'false') and filesize = $maxFileSize][1]">
                     <xsl:sort select="filesize" order="descending"/>
                 </xsl:apply-templates>
             </xsl:element>
@@ -203,14 +192,7 @@
     -->
     <xsl:template name="generalType">
         <generalType>
-            <xsl:choose>
-                <xsl:when test="$noImages">
-                    <xsl:value-of select="'Text'"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="'Image'"/>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:value-of select="'Text'"/>
         </generalType>
     </xsl:template>
 
@@ -337,15 +319,7 @@
             </xsl:if>
 
             <accessRights>
-                <xsl:variable name="restricted" select="/dataset/files/file/restricted[. = 'true'][1]"/>
-                <xsl:choose>
-                    <xsl:when test="$restricted">
-                        <xsl:value-of select="'Restricted Access'"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="'Open Access'"/>
-                    </xsl:otherwise>
-                </xsl:choose>
+                <xsl:value-of select="'Open Access'"/>
             </accessRights>
 
             <xsl:variable name="uri" select="license/uri"/>
@@ -417,7 +391,7 @@
     <!--                  hasRepresentation                   -->
     <!-- ==================================================== -->
     <xsl:template name="hasRepresentation">
-        <xsl:variable name="file" select="files/file[starts-with(contentType, $useFormat) and filesize = $maxFileSize][1]"/>
+        <xsl:variable name="file" select="files/file[contains(restricted, 'false') and filesize = $maxFileSize][1]"/>
         <xsl:variable name="filePath" select="$file/directoryLabel"/>
         <xsl:variable name="fileName" select="$file/filename"/>
         <xsl:element name="hasRepresentation">
@@ -428,62 +402,53 @@
     <!-- ==================================================== -->
     <!--               Carare digitalResource                 -->
     <!-- ==================================================== -->
-    <xsl:template match="dataset/files/file[starts-with(contentType, $useFormat)]">
-        <xsl:if test="not(file/restricted)">
-            <xsl:element name="digitalResource">
+    <xsl:template match="dataset/files/file[contains(restricted, 'false') and filesize = $maxFileSize][1]">
+        <xsl:element name="digitalResource">
 
-                <xsl:variable name="fileName" select="filename"/>
+            <xsl:variable name="fileName" select="filename"/>
 
-                <!-- recordInformation -->
-                <recordInformation>
-                    <id><xsl:value-of select="concat($doi, '/', $fileName)"/></id>
-                </recordInformation>
+            <!-- recordInformation -->
+            <recordInformation>
+                <id><xsl:value-of select="concat($doi, '/', $fileName)"/></id>
+            </recordInformation>
 
-                <!-- appellation -->
-                <appellation>
-                    <name lang="en"><xsl:value-of select="$fileName"/></name>
-                    <id><xsl:value-of select="$fileName"/></id>
-                </appellation>
+            <!-- appellation -->
+            <appellation>
+                <name lang="en"><xsl:value-of select="$fileName"/></name>
+                <id><xsl:value-of select="$fileName"/></id>
+            </appellation>
 
-                <!--   description   -->
-                <description lang="en">
-                    <xsl:choose>
-                        <xsl:when test="$noImages">
-                            <xsl:text>Report</xsl:text>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:text>Photo of the object</xsl:text>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </description>
+            <!--   description   -->
+            <description lang="en">
+                <xsl:text>Report</xsl:text>
+            </description>
 
-                <!--   format   -->
-                <format>
-                    <xsl:value-of select="contentType"/>
-                </format>
+            <!--   format   -->
+            <format>
+                <xsl:value-of select="contentType"/>
+            </format>
 
-                <xsl:variable name="downloadURL" select="/dataset/files/downloadUrl"/>
-                <xsl:variable name="fileId" select="id"/>
-                <!-- object -->
-                <object>
-                    <xsl:value-of select="concat($downloadURL, 'api/access/datafile/', $fileId)"/>
-                </object>
+            <xsl:variable name="downloadURL" select="/dataset/files/downloadUrl"/>
+            <xsl:variable name="fileId" select="id"/>
+            <!-- object -->
+            <object>
+                <xsl:value-of select="concat($downloadURL, 'api/access/datafile/', $fileId)"/>
+            </object>
 
-                <!-- isShownAt -->
-                <isShownAt>
-                    <xsl:value-of select="$doi-url"/>
-                </isShownAt>
+            <!-- isShownAt -->
+            <isShownAt>
+                <xsl:value-of select="$doi-url"/>
+            </isShownAt>
 
-                <!--   rights   -->
-                <rights>
-                    <accessRights>
-                        <xsl:value-of select="'Open Access'"/>
-                    </accessRights>
-                    <licence>
-                        <xsl:value-of select="/dataset/license/uri"/>
-                    </licence>
-                </rights>
-            </xsl:element>
-        </xsl:if>
+            <!--   rights   -->
+            <rights>
+                <accessRights>
+                    <xsl:value-of select="'Open Access'"/>
+                </accessRights>
+                <licence>
+                    <xsl:value-of select="/dataset/license/uri"/>
+                </licence>
+            </rights>
+        </xsl:element>
     </xsl:template>
 </xsl:stylesheet>

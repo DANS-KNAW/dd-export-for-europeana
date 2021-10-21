@@ -51,10 +51,10 @@ class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
   it should "produce a Carare XML-file with a correct structure" in {
     val carareXml = transformToCarare(dataset)
 
-    (carareXml \ "carare").head.child should have size 4
+    (carareXml \ "carare").head.child should have size 3
     carareXml \ "carare" \ "collectionInformation" should have size 1
     carareXml \ "carare" \ "heritageAssetIdentification" should have size 1
-    carareXml \ "carare" \ "digitalResource" should have size 2
+    carareXml \ "carare" \ "digitalResource" should have size 1
   }
 
   it should "produce a Carare XML-file with a correct id" in {
@@ -84,7 +84,7 @@ class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
     (heritageAssetIdentification \ "appellation" \ "name").head.text  shouldBe "PAN-00009021 - open plain arm ring with single knobbed terminals"
     (heritageAssetIdentification \ "appellation" \ "id").head.text  shouldBe "10.5072/DAR/VZP5W1"
     (heritageAssetIdentification \ "description").head.text  shouldBe "This find is registered at Portable Antiquities of the Netherlands with number PAN-00009021"
-    (heritageAssetIdentification \ "generalType").head.text  shouldBe "Image"
+    (heritageAssetIdentification \ "generalType").head.text  shouldBe "Text"
     (heritageAssetIdentification \ "actors" \ "name").head.text  shouldBe "Admin, Dataverse"
     (heritageAssetIdentification \ "actors" \ "actorType").head.text  shouldBe "individual"
     (heritageAssetIdentification \ "actors" \ "roles").head.text  shouldBe "Data Collector"
@@ -102,19 +102,19 @@ class XmlToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
     (heritageAssetIdentification \ "rights" \ "europeanaRights").head.text  shouldBe "The Creative Commons CC0 1.0 Universal Public Domain Dedication (CC0)"
     (heritageAssetIdentification \ "references" \ "appellation" \ "name").head.text  shouldBe "esimerkki"
     (heritageAssetIdentification \ "references" \ "appellation" \ "id").head.text  shouldBe "https://url.to.relation.nl/"
-    (heritageAssetIdentification \ "hasRepresentation").head.text  shouldBe "10.5072/DAR/VZP5W1/images/PAN-00009021-001.jpg"
+    (heritageAssetIdentification \ "hasRepresentation").head.text  shouldBe "10.5072/DAR/VZP5W1/tiedosto-2.pdf"
   }
 
   it should "produce a Carare XML-file with a correct digitalResource contents" in {
     val carareXml = transformToCarare(dataset)
     val digitalResource = (carareXml \ "carare" \ "digitalResource").head
 
-    (digitalResource \ "recordInformation" \ "id").text  shouldBe "10.5072/DAR/VZP5W1/PAN-00009021-001.jpg"
-    (digitalResource \ "appellation" \ "name").text  shouldBe "PAN-00009021-001.jpg"
-    (digitalResource \ "appellation" \ "id").text  shouldBe "PAN-00009021-001.jpg"
-    (digitalResource \ "description").text  shouldBe "Photo of the object"
-    (digitalResource \ "format").text  shouldBe "image/jpeg"
-    (digitalResource \ "object").text  shouldBe "https://dar.dans.knaw.nl/api/access/datafile/5"
+    (digitalResource \ "recordInformation" \ "id").text  shouldBe "10.5072/DAR/VZP5W1/tiedosto-2.pdf"
+    (digitalResource \ "appellation" \ "name").text  shouldBe "tiedosto-2.pdf"
+    (digitalResource \ "appellation" \ "id").text  shouldBe "tiedosto-2.pdf"
+    (digitalResource \ "description").text  shouldBe "Report"
+    (digitalResource \ "format").text  shouldBe "text/xml"
+    (digitalResource \ "object").text  shouldBe "https://dar.dans.knaw.nl/api/access/datafile/2"
     (digitalResource \ "isShownAt").text  shouldBe "https://doi.org/10.5072/DAR/VZP5W1"
     (digitalResource \ "rights" \ "accessRights").text  shouldBe "Open Access"
     (digitalResource \ "rights" \ "licence").text  shouldBe "http://creativecommons.org/publicdomain/zero/1.0"
