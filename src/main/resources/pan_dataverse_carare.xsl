@@ -388,13 +388,18 @@
     <!--                  hasRepresentation                   -->
     <!-- ==================================================== -->
     <xsl:template name="hasRepresentation">
-        <xsl:variable name="imageFilepath" select="files/file/directoryLabel[. = 'data/images'][1]"/>
-        <xsl:if test="$imageFilepath">
-            <xsl:variable name="fileName" select="$imageFilepath/../filename"/>
-            <xsl:element name="hasRepresentation">
-                <xsl:value-of select="concat($doi, substring($imageFilepath, 5) , '/', $fileName)"/>
-            </xsl:element>
-        </xsl:if>
+        <xsl:variable name="firstImageDirectory" select="files/file[contains(contentType, 'image')][1]/directoryLabel"/>
+        <xsl:variable name="firstImageName" select="files/file[contains(contentType, 'image')][1]/filename"/>
+        <xsl:element name="hasRepresentation">
+            <xsl:choose>
+                <xsl:when test="$firstImageDirectory != ''">
+                    <xsl:value-of select="concat($doi, '/', $firstImageDirectory, '/', $firstImageName)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat($doi, '/', $firstImageName)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:element>
     </xsl:template>
 
     <!-- ==================================================== -->

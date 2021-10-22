@@ -2,7 +2,7 @@
     <xsl:variable name="doi" select="substring-after(/dataset/datasetPersistentId, 'doi:')"/>
     <xsl:variable name="doi-url" select="concat('https://doi.org/', $doi)"/>
     <xsl:variable name="maxFileSize">
-        <xsl:for-each select="/dataset/files/file[contains(restricted, 'false')]">
+        <xsl:for-each select="/dataset/files/file[contains(restricted, 'false') and not(contains(directoryLabel, 'easy-migration'))]">
             <xsl:sort select="filesize"  data-type="number" order="descending"/>
             <xsl:if test="position() = 1">
                 <xsl:value-of select="filesize"/>
@@ -28,7 +28,7 @@
                 <!--   heritageAssetIdentification   -->
                 <xsl:apply-templates select="dataset"/>
                 <!--   digitalResource   -->
-                <xsl:apply-templates select="dataset/files/file[contains(restricted, 'false') and filesize = $maxFileSize][1]">
+                <xsl:apply-templates select="dataset/files/file[contains(restricted, 'false') and not(contains(directoryLabel, 'easy-migration')) and filesize = $maxFileSize][1]">
                     <xsl:sort select="filesize" order="descending"/>
                 </xsl:apply-templates>
             </xsl:element>
@@ -391,18 +391,25 @@
     <!--                  hasRepresentation                   -->
     <!-- ==================================================== -->
     <xsl:template name="hasRepresentation">
-        <xsl:variable name="file" select="files/file[contains(restricted, 'false') and filesize = $maxFileSize][1]"/>
+        <xsl:variable name="file" select="files/file[contains(restricted, 'false') and not(contains(directoryLabel, 'easy-migration')) and filesize = $maxFileSize][1]"/>
         <xsl:variable name="filePath" select="$file/directoryLabel"/>
         <xsl:variable name="fileName" select="$file/filename"/>
         <xsl:element name="hasRepresentation">
-            <xsl:value-of select="concat($doi, substring($filePath, 5) , '/', $fileName)"/>
+            <xsl:choose>
+                <xsl:when test="$filePath != ''">
+                    <xsl:value-of select="concat($doi, '/', $filePath, '/', $fileName)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="concat($doi, '/', $fileName)"/>
+                </xsl:otherwise>
+            </xsl:choose>
         </xsl:element>
     </xsl:template>
 
     <!-- ==================================================== -->
     <!--               Carare digitalResource                 -->
     <!-- ==================================================== -->
-    <xsl:template match="dataset/files/file[contains(restricted, 'false') and filesize = $maxFileSize][1]">
+    <xsl:template match="dataset/files/file[contains(restricted, 'false') and not(contains(directoryLabel, 'easy-migration')) and filesize = $maxFileSize][1]">
         <xsl:element name="digitalResource">
 
             <xsl:variable name="fileName" select="filename"/>
