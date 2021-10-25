@@ -101,7 +101,7 @@ class XmlPanToCarareSpec extends TestSupportFixture with BeforeAndAfterEach {
     (heritageAssetIdentification \ "rights" \ "europeanaRights").head.text  shouldBe "The Creative Commons CC0 1.0 Universal Public Domain Dedication (CC0)"
     (heritageAssetIdentification \ "references" \ "appellation" \ "name").head.text  shouldBe "esimerkki"
     (heritageAssetIdentification \ "references" \ "appellation" \ "id").head.text  shouldBe "https://url.to.relation.nl/"
-    (heritageAssetIdentification \ "hasRepresentation").head.text  shouldBe "10.5072/DAR/VZP5W1/images/PAN-00009020-001.jpg"
+    (heritageAssetIdentification \ "hasRepresentation").head.text  shouldBe "10.5072/DAR/VZP5W1/data/images/PAN-00009020-001.jpg"
   }
 
   it should "produce a Carare XML-file with a correct digitalResource contents" in {

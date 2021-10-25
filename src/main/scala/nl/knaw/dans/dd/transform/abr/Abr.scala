@@ -42,7 +42,6 @@ class Abr(configuration: Configuration) extends DebugEnhancedLogging {
       label = (response \\ "prefLabel").head.text
       scheme = (response \\ "inScheme").head.attribute(RDF_NAMESPACE_URI, "resource").map(_.head.text).getOrElse("")
       _ = abrCodes += (uri -> (label, scheme))
-      _ = logger.info("abrCOdes:  " + abrCodes.toString())
     } yield (label, scheme)
   }
 

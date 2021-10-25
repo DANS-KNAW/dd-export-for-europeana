@@ -131,8 +131,11 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
         logger.error(s"Could not retrieve AbrComplexLabel and AbrComplexSchemeUri for $value. Reason: $labelAndScheme")
       xml + "</dansAbrComplex>"
     }
-    else
-      s"<$name>$value</$name>"
+    else {
+      val valueCleaned = value.replace("<br>", " ").replace("</br>", " ")
+        .replace("<p>", " ").replace("</p>", " ").replace("&", "&amp;")
+      s"<$name>$valueCleaned</$name>"
+    }
   }
 
   private def getCompoundXml(name: JValue, value: JValue): String = {
