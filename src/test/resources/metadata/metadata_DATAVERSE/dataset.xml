@@ -6,19 +6,13 @@
         <uri>http://creativecommons.org/publicdomain/zero/1.0</uri>
     </license>
     <title>PAN-00009021 - open plain arm ring with single knobbed terminals</title>
-    <dsDescription>
-        <dsDescriptionValue>This find is registered at Portable Antiquities of the Netherlands with number PAN-00009021</dsDescriptionValue>
-    </dsDescription>
-    <dateOfDeposit>2021-10-06</dateOfDeposit>
-    <language>English</language>
-    <language>Finnish</language>
     <author>
         <authorName>Admin, Dataverse</authorName>
         <authorAffiliation>Dataverse.org</authorAffiliation>
     </author>
-    <distributor>
-        <distributorName>Uitgever ltd</distributorName>
-    </distributor>
+    <dsDescription>
+        <dsDescriptionValue>This find is registered at Portable Antiquities of the Netherlands with number PAN-00009021</dsDescriptionValue>
+    </dsDescription>
     <subject>Arts and Humanities</subject>
     <keyword>
         <keywordValue>metal</keywordValue>
@@ -26,12 +20,24 @@
     <keyword>
         <keywordValue>copper alloy</keywordValue>
     </keyword>
+    <language>English</language>
+    <language>Finnish</language>
+    <dateOfDeposit>2021-10-06</dateOfDeposit>
+    <dansRightsHolder>Vrije Universiteit Amsterdam</dansRightsHolder>
     <contributor>
         <contributorType>Data Collector</contributorType>
     </contributor>
     <contributor>
         <contributorType>Editor</contributorType>
     </contributor>
+    <distributor>
+        <distributorName>Uitgever ltd</distributorName>
+    </distributor>
+    <dansRelation>
+        <dansRelationType>references</dansRelationType>
+        <dansRelationURI>https://url.to.relation.nl/</dansRelationURI>
+        <dansRelationText>esimerkki</dansRelationText>
+    </dansRelation>
     <dansAbrComplex>
         <dansAbrComplexTermUID>https://data.cultureelerfgoed.nl/term/id/abr/2b2e5696-56e7-4e5a-9e16-1f7505611310</dansAbrComplexTermUID>
         <dansAbrComplexTerm>slagveld</dansAbrComplexTerm>
@@ -40,12 +46,6 @@
     <dansAbrPeriod>https://data.cultureelerfgoed.nl/term/id/abr/4bf24a9f-1f7d-497e-96a4-d4a0f42d564b</dansAbrPeriod>
     <dansSpatialCoverageText>Zaltbommel</dansSpatialCoverageText>
     <dansSpatialCoverageText>NLD</dansSpatialCoverageText>
-    <dansRightsHolder>Vrije Universiteit Amsterdam</dansRightsHolder>
-    <dansRelation>
-        <dansRelationType>references</dansRelationType>
-        <dansRelationURI>https://url.to.relation.nl/</dansRelationURI>
-        <dansRelationText>esimerkki</dansRelationText>
-    </dansRelation>
     <files>
         <downloadUrl>https://dar.dans.knaw.nl/</downloadUrl>
         <file>
