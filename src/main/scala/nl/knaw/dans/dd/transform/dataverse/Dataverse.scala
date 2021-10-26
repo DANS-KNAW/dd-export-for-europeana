@@ -47,16 +47,29 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
 
   def getMetadata(doi: String): Try[Elem] = Try {
     var xml = "<dataset>"
-    val elements = List(("license", true), ("title", false), ("author", true), ("dsDescription", true),
+    val citationElements = List(("title", false), ("author", true), ("dsDescription", true),
       ("subject", false), ("keyword", true), ("language", false), ("dateOfDeposit", false),
-      ("contributor", true), ("distributor", true), ("dansRights", false), ("dansRelation", true),
-      ("dansAbr", false), ("dansTemporal", false), ("dansSpatial", true), ("dansSpatialCoverage", false))
+      ("contributor", true), ("distributor", true))
+    val dansRightsElements = List(("dansRightsHolder", false))
+    val dansRelationMetadataElements = List(("dansRelation", false))
+    val dansArchaeologyElements = List(("dansAbrComplex", false), ("dansAbrPeriod", false))
+    val dansTemporalSpatialElements = List(("dansSpatialCoverageText", false))
     val metadata = server.dataset(doi).view(Version.LATEST_PUBLISHED)
     metadata.map(m =>
       m.json.map(j => {
-        val namesAndValues = getNamesAndValues(j \\ "data")
+        val metadataBlocks = j \\ "metadataBlocks"
+        val citation = metadataBlocks \\ "citation" \\ "fields"
+        val dansRights = metadataBlocks \\ "dansRights" \\ "fields"
+        val dansRelationMetadata = metadataBlocks \\ "dansRelationMetadata" \\ "fields"
+        val dansArchaeology = metadataBlocks \\ "dansArchaeologyMetadata" \\ "fields"
+        val dansTemporalSpatial = metadataBlocks \\ "dansTemporalSpatial" \\ "fields"
+
         xml += getPid(j) + getLicense(j)
-        elements.foreach(element => xml += getXml(namesAndValues, element))
+        citationElements.foreach(element => xml += getXml(citation, element._1, element._2))
+        dansRightsElements.foreach(element => xml += getXml(dansRights, element._1, element._2))
+        dansRelationMetadataElements.foreach(element => xml += getXml(dansRelationMetadata, element._1, element._2))
+        dansArchaeologyElements.foreach(element => xml += getXml(dansArchaeology, element._1, element._2))
+        dansTemporalSpatialElements.foreach(element => xml += getXml(dansTemporalSpatial, element._1, element._2))
         xml += getFilesXml(j \\ "files")
       }
       )).getOrElse(throw new Exception(metadata.get.message.get))
@@ -64,30 +77,25 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
     XML.loadString(xml)
   }
 
-  private def getNamesAndValues(j: JValue): List[(JValue, JValue)] = {
-    val n = j \\ "typeName"
-    val v = j \\ "value"
-    val names = if (n.isInstanceOf[JString]) List(n) else n.children
-    val values = if (v.isInstanceOf[JString]) List(v) else v.children
-    names zip values
-  }
-
   private def getPid(j: JValue): String = {
-    getLeafXml(JString("datasetPersistentId"), j \\ "datasetPersistentId")
+    getLeafXml("datasetPersistentId", j \\ "datasetPersistentId")
   }
 
   private def getLicense(j: JValue): String = {
-    val label = j \\ "license" \\  "label"
-    val uri = j \\ "license" \\  "uri"
-    "<license>" + getLeafXml(JString("label"), label) + getLeafXml(JString("uri"), uri) + "</license>"
+    val label = j \\ "license" \\ "label"
+    val uri = j \\ "license" \\ "uri"
+    "<license>" + getLeafXml("label", label) + getLeafXml("uri", uri) + "</license>"
   }
 
-  private def getXml(namesAndValues: List[(JValue, JValue)], element: (String, Boolean)): String = {
+  private def getXml(j: JValue, name: String, isCompound: Boolean): String = {
     var xml = ""
-    val (name, isCompound) = element
-    namesAndValues.filter(z => z._1.values.toString.startsWith(name)).foreach(z =>
-      if (isCompound) xml += getCompoundXml(z._1, z._2)
-      else xml += getLeafXml(z._1, z._2))
+    j.children.foreach(child =>
+      if (child.values.toString.contains(name)) {
+        val value = child \\ "value"
+        if (isCompound) xml += getCompoundXml(name, value)
+        else xml += getLeafXml(name, value)
+      }
+    )
     xml
   }
 
@@ -103,19 +111,19 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
       val restricted = f \\ "restricted"
       val contentType = f \\ "contentType"
       val filesize = f \\ "filesize"
-      innerXml += getLeafXml(JString("id"), id)  + getLeafXml(JString("filename"), filename) + getLeafXml(JString("filesize"), filesize)
-      innerXml += getLeafXml(JString("restricted"), restricted) + getLeafXml(JString("contentType"), contentType)
-      if (directoryLabel.isInstanceOf[JString]) innerXml += getLeafXml(JString("directoryLabel"), directoryLabel)
+      innerXml += getLeafXml("id", id) + getLeafXml("filename", filename) + getLeafXml("filesize", filesize)
+      innerXml += getLeafXml("restricted", restricted) + getLeafXml("contentType", contentType)
+      if (directoryLabel.isInstanceOf[JString]) innerXml += getLeafXml("directoryLabel", directoryLabel)
       xml += "<file>" + innerXml + "</file>"
     })
     xml += "</files>"
     xml
   }
 
-  private def getLeafXml(name: JValue, value: JValue): String = {
+  private def getLeafXml(name: String, value: JValue): String = {
     var xml = ""
     val leafValues = if (value.isInstanceOf[JArray]) value.children else List(value)
-    leafValues.foreach(v => xml += getLeafXmlElements(name.values.toString, v.values.toString.trim))
+    leafValues.foreach(v => xml += getLeafXmlElements(name, v.values.toString.trim))
     xml
   }
 
@@ -138,10 +146,10 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
     }
   }
 
-  private def getCompoundXml(name: JValue, value: JValue): String = {
+  private def getCompoundXml(name: String, value: JValue): String = {
     var xml = ""
-    val startTag = s"<${name.values.toString}>"
-    val endTag = s"</${name.values.toString}>"
+    val startTag = s"<$name>"
+    val endTag = s"</$name>"
     value.children.foreach(v => {
       if (v.values.toString.nonEmpty) {
         var innerXml = ""
@@ -151,7 +159,7 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
         val leafValues = if (values.isInstanceOf[JString]) List(values) else values.children
         val zipped = leafNames zip leafValues
         zipped.foreach(z => {
-          innerXml += getLeafXml(z._1, z._2)
+          innerXml += getLeafXml(z._1.values.toString, z._2)
         })
         if (innerXml nonEmpty) {
           xml += startTag + innerXml + endTag
