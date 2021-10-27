@@ -129,7 +129,7 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
 
   private def getLeafXmlElements(name: String, value: String): String = {
     if (name == "dansAbrComplex") {
-      // Label and SchemeUri of AbrComplex are not stored in Dataverse. We fetch them from data.cultureelerfgoed.nl
+      // Label and SchemeUri of AbrComplex are not stored in Dataverse. We fetch them from data.cultureelerfgoed.nl.
       // From dansAbrComplex leaf element we create here a complex element in the output.
       var xml = s"<dansAbrComplex><dansAbrComplexTermUID>$value</dansAbrComplexTermUID>"
       val labelAndScheme = abr.getAbrLabelAndScheme(value)
@@ -138,6 +138,17 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
       else
         logger.error(s"Could not retrieve AbrComplexLabel and AbrComplexSchemeUri for $value. Reason: $labelAndScheme")
       xml + "</dansAbrComplex>"
+    }
+    else if (name == "dansAbrPeriod") {
+      // Label of AbrPeriod is not stored in Dataverse. We fetch it from data.cultureelerfgoed.nl
+      // and we show the label in dansAbrPeriod leaf element.
+      var xml = s"<dansAbrPeriod>"
+      val labelAndScheme = abr.getAbrLabelAndScheme(value)
+      if (labelAndScheme.isSuccess)
+        xml += labelAndScheme.get._1
+      else
+        logger.error(s"Could not retrieve AbrPeriodLabel for $value. Reason: $labelAndScheme")
+      xml + "</dansAbrPeriod>"
     }
     else {
       val valueCleaned = value.replace("<br>", " ").replace("</br>", " ")
