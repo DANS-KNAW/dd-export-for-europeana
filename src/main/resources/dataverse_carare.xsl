@@ -28,9 +28,7 @@
                 <!--   heritageAssetIdentification   -->
                 <xsl:apply-templates select="dataset"/>
                 <!--   digitalResource   -->
-                <xsl:apply-templates select="dataset/files/file[contains(restricted, 'false') and not(contains(directoryLabel, 'easy-migration')) and filesize = $maxFileSize][1]">
-                    <xsl:sort select="filesize" order="descending"/>
-                </xsl:apply-templates>
+                <xsl:apply-templates select="dataset/files/file[contains(restricted, 'false') and not(contains(directoryLabel, 'easy-migration')) and filesize = $maxFileSize]"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -409,7 +407,7 @@
     <!-- ==================================================== -->
     <!--               Carare digitalResource                 -->
     <!-- ==================================================== -->
-    <xsl:template match="dataset/files/file[contains(restricted, 'false') and not(contains(directoryLabel, 'easy-migration')) and filesize = $maxFileSize][1]">
+    <xsl:template match="dataset/files/file[contains(restricted, 'false') and not(contains(directoryLabel, 'easy-migration')) and filesize = $maxFileSize]">
         <xsl:element name="digitalResource">
 
             <xsl:variable name="fileName" select="filename"/>
