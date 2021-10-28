@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <datasetPersistentId>doi:10.5072/DAR/VZP5W1</datasetPersistentId>
+    <license>
+        <label>CC0-1.0</label>
+        <uri>http://creativecommons.org/publicdomain/zero/1.0</uri>
+    </license>
+    <title>PAN-00009021 - open plain arm ring with single knobbed terminals</title>
+    <author>
+        <authorName>Admin, Dataverse</authorName>
+        <authorAffiliation>Dataverse.org</authorAffiliation>
+    </author>
+    <dsDescription>
+        <dsDescriptionValue>This find is registered at Portable Antiquities of the Netherlands with number PAN-00009021</dsDescriptionValue>
+    </dsDescription>
+    <subject>Arts and Humanities</subject>
+    <keyword>
+        <keywordValue>metal</keywordValue>
+    </keyword>
+    <keyword>
+        <keywordValue>copper alloy</keywordValue>
+    </keyword>
+    <language>English</language>
+    <language>Finnish</language>
+    <dateOfDeposit>2021-10-06</dateOfDeposit>
+    <dansRightsHolder>Vrije Universiteit Amsterdam</dansRightsHolder>
+    <contributor>
+        <contributorType>Data Collector</contributorType>
+    </contributor>
+    <contributor>
+        <contributorType>Editor</contributorType>
+    </contributor>
+    <distributor>
+        <distributorName>Uitgever ltd</distributorName>
+    </distributor>
+    <dansRelation>
+        <dansRelationType>references</dansRelationType>
+        <dansRelationURI>https://url.to.relation.nl/</dansRelationURI>
+        <dansRelationText>esimerkki</dansRelationText>
+    </dansRelation>
+    <dansAbrComplex>
+        <dansAbrComplexTermUID>https://data.cultureelerfgoed.nl/term/id/abr/2b2e5696-56e7-4e5a-9e16-1f7505611310</dansAbrComplexTermUID>
+        <dansAbrComplexTerm>slagveld</dansAbrComplexTerm>
+        <dansAbrComplexScheme>https://data.cultureelerfgoed.nl/term/id/abr/b6df7840-67bf-48bd-aa56-7ee39435d2ed</dansAbrComplexScheme>
+    </dansAbrComplex>
+    <dansAbrPeriod>https://data.cultureelerfgoed.nl/term/id/abr/4bf24a9f-1f7d-497e-96a4-d4a0f42d564b</dansAbrPeriod>
+    <dansSpatialCoverageText>Zaltbommel</dansSpatialCoverageText>
+    <dansSpatialCoverageText>NLD</dansSpatialCoverageText>
+    <files>
+        <downloadUrl>https://dar.dans.knaw.nl/</downloadUrl>
+        <file>
+            <id>1</id>
+            <filename>object.xml</filename>
+            <restricted>false</restricted>
+            <contentType>text/xml</contentType>
+            <filesize>33399</filesize>
+        </file>
+        <file>
+            <id>2</id>
+            <filename>thesaurus-nl.xml</filename>
+            <restricted>false</restricted>
+            <contentType>text/xml</contentType>
+            <filesize>27044</filesize>
+        </file>
+        <file>
+            <id>3</id>
+            <filename>thesaurus-en.xml</filename>
+            <restricted>false</restricted>
+            <contentType>text/xml</contentType>
+            <filesize>1926</filesize>
+        </file>
+        <file>
+            <id>4</id>
+            <filename>PAN-00009020-001.jpg</filename>
+            <directoryLabel>data/images</directoryLabel>
+            <restricted>false</restricted>
+            <contentType>image/jpeg</contentType>
+            <filesize>16000</filesize>
+        </file>
+        <file>
+            <id>5</id>
+            <filename>PAN-00009021-001.jpg</filename>
+            <directoryLabel>data/images</directoryLabel>
+            <restricted>false</restricted>
+            <contentType>image/jpeg</contentType>
+            <filesize>16364</filesize>
+        </file>
+    </files>
+</dataset>
