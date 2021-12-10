@@ -137,7 +137,7 @@
             <!-- creation -->
             <creation>
                 <date>
-                    <xsl:value-of select="dateOfDeposit"/>
+                    <xsl:value-of select="productionDate"/>
                 </date>
             </creation>
 
@@ -271,9 +271,9 @@
     <!-- ==================================================== -->
     <!--                    materials                         -->
     <!-- ==================================================== -->
-    <xsl:template match="keyword">
+    <xsl:template match="keyword/keywordValue">
         <xsl:element name="materials">
-            <xsl:value-of select="keywordValue"/>
+            <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
 

@@ -48,10 +48,10 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
   def getMetadata(doi: String): Try[Elem] = Try {
     var xml = "<dataset>"
     val citationElements = List(("title", false), ("author", true), ("dsDescription", true),
-      ("subject", false), ("keyword", true), ("language", false), ("dateOfDeposit", false),
+      ("subject", false), ("keyword", true), ("language", false), ("productionDate", false),
       ("contributor", true), ("distributor", true))
     val dansRightsElements = List(("dansRightsHolder", false))
-    val dansRelationMetadataElements = List(("dansRelation", false))
+    val dansRelationMetadataElements = List(("dansRelation", true))
     val dansArchaeologyElements = List(("dansAbrComplex", false), ("dansAbrPeriod", false))
     val dansTemporalSpatialElements = List(("dansSpatialCoverageText", false))
     val metadata = server.dataset(doi).view(Version.LATEST_PUBLISHED)

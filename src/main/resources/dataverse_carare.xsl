@@ -122,7 +122,7 @@
             <!-- creation -->
             <creation>
                 <date>
-                    <xsl:value-of select="dateOfDeposit"/>
+                    <xsl:value-of select="productionDate"/>
                 </date>
             </creation>
 
@@ -273,9 +273,9 @@
     <!-- ==================================================== -->
     <!--                    materials                         -->
     <!-- ==================================================== -->
-    <xsl:template match="keyword">
+    <xsl:template match="keyword/keywordValue">
         <xsl:element name="materials">
-            <xsl:value-of select="keywordValue"/>
+            <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
 
@@ -288,7 +288,7 @@
         <xsl:element name="spatial">
             <xsl:element name="locationSet">
                 <xsl:element name="namedLocation">
-                    <xsl:value-of select="concat(., ' (undisclosed location)')"/>
+                    <xsl:value-of select="."/>
                 </xsl:element>
             </xsl:element>
         </xsl:element>
