@@ -162,20 +162,22 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
     val startTag = s"<$name>"
     val endTag = s"</$name>"
     value.children.foreach(v => {
-      if (v.values.toString.nonEmpty) {
-        var innerXml = ""
-        val names = v \\ "typeName"
-        val values = v \\ "value"
-        val leafNames = if (names.isInstanceOf[JString]) List(names) else names.children
-        val leafValues = if (values.isInstanceOf[JString]) List(values) else values.children
-        val zipped = leafNames zip leafValues
-        zipped.foreach(z => {
-          innerXml += getLeafXml(z._1.values.toString, z._2)
-        })
-        if (innerXml nonEmpty) {
-          xml += startTag + innerXml + endTag
+      v.children.foreach(c => {
+        if (c.values.toString.nonEmpty) {
+          var innerXml = ""
+          val names = c \\ "typeName"
+          val values = c \\ "value"
+          val leafNames = if (names.isInstanceOf[JString]) List(names) else names.children
+          val leafValues = if (values.isInstanceOf[JString]) List(values) else values.children
+          val zipped = leafNames zip leafValues
+          zipped.foreach(z => {
+            innerXml += getLeafXml(z._1.values.toString, z._2)
+          })
+          if (innerXml nonEmpty) {
+            xml += startTag + innerXml + endTag
+          }
         }
-      }
+      })
     })
     xml
   }
