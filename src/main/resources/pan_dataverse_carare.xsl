@@ -100,7 +100,7 @@
             <xsl:call-template name="generalType"/>
 
             <!-- actors -->
-            <xsl:apply-templates select="author"/>
+            <xsl:call-template name="authors"/>
 
             <!-- characters -->
             <xsl:call-template name="characters"/>
@@ -178,9 +178,11 @@
     <!--                     description                      -->
     <!-- ==================================================== -->
     <xsl:template match="dsDescription">
-         <description lang="en">
-            <xsl:value-of select="dsDescriptionValue" />
-        </description>
+        <xsl:for-each select="dsDescriptionValue">
+            <description lang="en">
+                <xsl:value-of select="." />
+            </description>
+        </xsl:for-each>
     </xsl:template>
 
     <!-- ==================================================== -->
@@ -195,26 +197,26 @@
     <!-- ==================================================== -->
     <!--                      actors                          -->
     <!-- ==================================================== -->
-    <xsl:template match="author">
+    <xsl:template name="authors">
         <xsl:element name="actors">
             <!-- name -->
-            <xsl:for-each select="./authorName">
+            <xsl:for-each select="./author/authorName">
                 <xsl:element name="name">
                     <xsl:value-of select="."/>
                 </xsl:element>
             </xsl:for-each>
 
             <!-- actorType -->
-            <xsl:if test="./authorAffiliation">
+            <xsl:if test="./author/authorAffiliation">
                 <xsl:element name="actorType">
-                     <xsl:value-of select="'individual'"/>
+                    <xsl:value-of select="'individual'"/>
                 </xsl:element>
             </xsl:if>
 
             <!-- roles -->
-            <xsl:for-each select="/dataset/contributor">
+            <xsl:for-each select="/dataset/contributor/contributorType">
                 <xsl:element name="roles">
-                    <xsl:value-of select="contributorType"/>
+                    <xsl:value-of select="."/>
                 </xsl:element>
             </xsl:for-each>
 
@@ -296,11 +298,13 @@
     <!--                 publicationStatement                 -->
     <!-- ==================================================== -->
     <xsl:template match="distributor">
-        <xsl:element name="publicationStatement">
-            <xsl:element name="publisher">
-                <xsl:value-of select="distributorName"/>
+        <xsl:for-each select="distributorName">
+            <xsl:element name="publicationStatement">
+                <xsl:element name="publisher">
+                    <xsl:value-of select="."/>
+                </xsl:element>
             </xsl:element>
-        </xsl:element>
+        </xsl:for-each>
     </xsl:template>
 
     <!-- ==================================================== -->
