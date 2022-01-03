@@ -48,10 +48,10 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
   def getMetadata(doi: String): Try[Elem] = Try {
     var xml = "<dataset>"
     val citationElements = List(("title", false), ("author", true), ("dsDescription", true),
-      ("subject", false), ("keyword", true), ("language", false), ("dateOfDeposit", false),
+      ("subject", false), ("keyword", true), ("language", false), ("productionDate", false),
       ("contributor", true), ("distributor", true))
     val dansRightsElements = List(("dansRightsHolder", false))
-    val dansRelationMetadataElements = List(("dansRelation", false))
+    val dansRelationMetadataElements = List(("dansRelation", true))
     val dansArchaeologyElements = List(("dansAbrComplex", false), ("dansAbrPeriod", false))
     val dansTemporalSpatialElements = List(("dansSpatialCoverageText", false))
     val metadata = server.dataset(doi).view(Version.LATEST_PUBLISHED)
@@ -162,20 +162,22 @@ class Dataverse(configuration: Configuration) extends DebugEnhancedLogging {
     val startTag = s"<$name>"
     val endTag = s"</$name>"
     value.children.foreach(v => {
-      if (v.values.toString.nonEmpty) {
-        var innerXml = ""
-        val names = v \\ "typeName"
-        val values = v \\ "value"
-        val leafNames = if (names.isInstanceOf[JString]) List(names) else names.children
-        val leafValues = if (values.isInstanceOf[JString]) List(values) else values.children
-        val zipped = leafNames zip leafValues
-        zipped.foreach(z => {
-          innerXml += getLeafXml(z._1.values.toString, z._2)
-        })
-        if (innerXml nonEmpty) {
-          xml += startTag + innerXml + endTag
+      v.children.foreach(c => {
+        if (c.values.toString.nonEmpty) {
+          var innerXml = ""
+          val names = c \\ "typeName"
+          val values = c \\ "value"
+          val leafNames = if (names.isInstanceOf[JString]) List(names) else names.children
+          val leafValues = if (values.isInstanceOf[JString]) List(values) else values.children
+          val zipped = leafNames zip leafValues
+          zipped.foreach(z => {
+            innerXml += getLeafXml(z._1.values.toString, z._2)
+          })
+          if (innerXml nonEmpty) {
+            xml += startTag + innerXml + endTag
+          }
         }
-      }
+      })
     })
     xml
   }
